@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: "Nunito", Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  color: white;
+  background-color: #1a1e2e;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: none;
+}
+a:hover {
+  color: #313bee;
+}
+
+body {
+  margin: 0;
+}
+
+button {
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* @media (prefers-color-scheme: light) {
+  :root {
+    color: white;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+} */
