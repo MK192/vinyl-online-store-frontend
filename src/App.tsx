@@ -1,9 +1,9 @@
+//components
+import Nav from "@components/Nav";
 function App() {
   return (
     <>
-      <div className="bg-blackHowl">
-        <h1 className="text-xl ">Vinyl Records</h1>
-      </div>
+      <Nav />
     </>
   );
 }
