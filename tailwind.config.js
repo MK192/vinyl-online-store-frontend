@@ -3,15 +3,16 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     screens: {
-      xl: { max: "1440px" },
-      lg: { max: "1024px" },
-      md: { max: "800px" },
-      sm: { max: "480px" },
+      xl: "1440px",
+      lg: "1024px",
+      md: "800px",
+      sm: "480px",
     },
     extend: {
       colors: {
         blackHowl: "#1a1e2e",
-        JollyChristmas: "#b0042c",
+        jollyChristmas: "#b0042c",
+        absenceOfColor: "#16151c",
       },
     },
   },
