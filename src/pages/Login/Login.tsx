@@ -1,16 +1,16 @@
 import { Link } from "react-router-dom";
 
 //components
-import RegistrationForm from "@components/Forms/RegistrationForm";
 import BackToHome from "@components/BackToRecords";
+import LoginForm from "@components/Forms/LoginForm";
 
-export default function Registration() {
+export default function Login() {
   return (
     <div className="flex flex-col items-center mt-24 gap-12">
-      <Link to="/">
+      <Link to={"/"}>
         <BackToHome />
       </Link>
-      <RegistrationForm />
+      <LoginForm />
     </div>
   );
 }

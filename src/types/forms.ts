@@ -5,3 +5,8 @@ export interface RegistrationType {
   password: string;
   terms: boolean;
 }
+
+export interface LoginType {
+  email: string;
+  password: string;
+}
