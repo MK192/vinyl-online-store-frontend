@@ -7,7 +7,6 @@
   line-height: 1.5;
   font-weight: 400;
   margin: 0 auto;
-
   text-align: center;
   color: white;
   background-color: #1a1e2e;
@@ -19,11 +18,8 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
+
   text-decoration: none;
-}
-a:hover {
-  color: #313bee;
 }
 
 body {
@@ -35,6 +31,9 @@ button {
   cursor: pointer;
 }
 
+h1 {
+  font-size: 24px;
+}
 /* @media (prefers-color-scheme: light) {
   :root {
     color: white;
