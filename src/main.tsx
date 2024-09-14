@@ -24,6 +24,10 @@ const router = createBrowserRouter([
     path: "/login",
     element: <Login />,
   },
+  {
+    path: "/user-profile",
+    element: <p>User Page</p>,
+  },
 ]);
 
 const queryClient = new QueryClient();

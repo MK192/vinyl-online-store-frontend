@@ -28,7 +28,6 @@ export const registerUser = async (formData: RegistrationType) => {
 
 // Function for log in
 export const loginUser = async (formData: LoginType) => {
-  console.log(baseUrl);
   try {
     const res = await fetch(`${baseUrl}/api/v1/auth/login`, {
       method: "POST",

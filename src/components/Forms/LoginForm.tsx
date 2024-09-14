@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 //components
@@ -23,6 +24,7 @@ export default function LoginForm() {
   } = useForm<LoginType>({
     resolver: zodResolver(loginFormSchema),
   });
+  const navigate = useNavigate();
 
   const {
     mutate: userLogin,
@@ -32,6 +34,9 @@ export default function LoginForm() {
     isPending,
   } = useMutation({
     mutationFn: loginUser,
+    onSuccess: () => {
+      navigate("/user-profile");
+    },
   });
   console.log(userData);
   return (
@@ -39,13 +44,12 @@ export default function LoginForm() {
       <form
         className="flex flex-col items-center justify-center gap-4 w-full p-4 md:border-2 border-absenceOfColor rounded-lg"
         onSubmit={handleSubmit((formValues) => {
-          console.log(formValues);
           userLogin(formValues);
         })}
       >
         <h1>Login Form</h1>
         <hr className=" border-absenceOfColor border-2 w-full" />
-        <div className="flex flex-col md:flex-row items-center justify-center flex-wrap gap-6 w-full pt-4">
+        <div className="flex flex-col items-center justify-center flex-wrap gap-6 w-full pt-4  md:flex-row md:items-start">
           <FormInputText
             labelText="Email"
             {...register("email")}
