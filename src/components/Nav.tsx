@@ -7,7 +7,9 @@ export default function Nav() {
       <Link to={"/registration"}>
         <strong className="cursor-pointer">Register</strong>
       </Link>
-      <strong className="cursor-pointer">Login</strong>
+      <Link to={"/login"}>
+        <strong className="cursor-pointer">Login</strong>
+      </Link>
       <img
         src="blank-user.png "
         className="w-7 border-[1px] border-blackHowl rounded-full bg-slate-50 cursor-pointer"
