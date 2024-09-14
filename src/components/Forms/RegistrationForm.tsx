@@ -18,6 +18,7 @@ import { registrationFormSchema } from "@schema/registrationFormSchema";
 import { registerUser } from "requests/userRequest";
 
 export default function RegistrationForm() {
+  // React Hook form
   const {
     register,
     handleSubmit,
@@ -26,6 +27,7 @@ export default function RegistrationForm() {
     resolver: zodResolver(registrationFormSchema),
   });
 
+  // Tanstack Query
   const {
     mutate: userRegistration,
     isError,
