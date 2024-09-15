@@ -1,8 +1,10 @@
 import { ReactNode, forwardRef } from "react";
 import clsx from "clsx";
+
 type Props = {
   children: ReactNode;
 };
+
 export default forwardRef<HTMLInputElement, Props>(function FormCheckbox(
   { children, ...other }: Props,
   ref

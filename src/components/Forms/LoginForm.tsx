@@ -28,7 +28,6 @@ export default function LoginForm() {
 
   const {
     mutate: userLogin,
-    data: userData,
     isError,
     error,
     isPending,
@@ -38,7 +37,7 @@ export default function LoginForm() {
       navigate("/user-profile");
     },
   });
-  console.log(userData);
+
   return (
     <div className="w-full md:w-5/12   ">
       <form

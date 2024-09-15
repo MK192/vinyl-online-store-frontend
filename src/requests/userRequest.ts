@@ -3,6 +3,8 @@ import { RegistrationType, LoginType } from "types/forms";
 
 const baseUrl = import.meta.env.VITE_BASE_URL ?? "http://localhost:3001";
 
+/////// POST
+
 // Function for registration
 export const registerUser = async (formData: RegistrationType) => {
   try {
@@ -31,6 +33,7 @@ export const loginUser = async (formData: LoginType) => {
   try {
     const res = await fetch(`${baseUrl}/api/v1/auth/login`, {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
@@ -40,9 +43,48 @@ export const loginUser = async (formData: LoginType) => {
       }),
     });
     const data = await res.json();
-    console.log(data);
+
     if (!res.ok) throw new Error(data.error);
-    return data.access_token;
+  } catch (error) {
+    console.error(error);
+    throw new Error(`${error}`);
+  }
+};
+
+// Function for logout
+export const logoutUser = async () => {
+  try {
+    const res = await fetch(`${baseUrl}/api/v1/auth/logout`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+    throw new Error(`${error}`);
+  }
+};
+
+////// GET
+
+export const getUser = async () => {
+  try {
+    const res = await fetch(`${baseUrl}/api/v1/user`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    // console.log(data);
+    return data;
   } catch (error) {
     console.error(error);
     throw new Error(`${error}`);
