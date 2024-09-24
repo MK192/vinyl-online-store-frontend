@@ -1,5 +1,6 @@
 //type
 import { RegistrationType, LoginType } from "types/forms";
+import { EditUserProfileType, LogedUserType } from "types/user";
 
 const baseUrl = import.meta.env.VITE_BASE_URL ?? "http://localhost:3001";
 
@@ -70,6 +71,37 @@ export const logoutUser = async () => {
   }
 };
 
+////// PATCH
+
+export const editUserProfile = async (
+  profile: LogedUserType[] | EditUserProfileType[]
+) => {
+  const currentProfile = profile[0];
+  const editedProfile = profile[1];
+  const fileImage = profile[2];
+
+  const formData = new FormData();
+  formData.append("firstName", editedProfile.firstName);
+  formData.append("lastName", editedProfile.lastName);
+  formData.append("birthday", editedProfile.birthday);
+  if (fileImage) {
+    formData.append("profileImage", fileImage[0]);
+  }
+  try {
+    const res = await fetch(`${baseUrl}/api/v1/user`, {
+      method: "PATCH",
+      body: formData,
+      credentials: "include",
+    });
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.error);
+    console.log("form complete");
+  } catch (error) {
+    console.error(error);
+    throw new Error(`${error}`);
+  }
+};
 ////// GET
 
 export const getUser = async () => {

@@ -3,10 +3,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 
 // components
+import Button from "@components/Buttons/Button";
 import FormInputText from "./FormInputText";
 import FormCheckbox from "./FormCheckbox";
 import UserRegistered from "./UserRegistred";
-import FormButton from "@components/Buttons/FormButton";
 
 //type
 import { RegistrationType } from "types/forms";
@@ -52,25 +52,29 @@ export default function RegistrationForm() {
         >
           <h1>Registration Form</h1>
           <hr className=" border-absenceOfColor border-2 w-full" />
-          <div className="flex justify-center flex-wrap gap-6 w-full pt-8">
+          <div className="flex justify-center flex-wrap gap-6  pt-8">
             <FormInputText
+              width="w-56"
               labelText="First Name"
               {...register("firstName")}
               error={errors.firstName?.message}
             />
             <FormInputText
+              width="w-56"
               labelText="Last Name"
               {...register("lastName")}
               error={errors.lastName?.message}
             />
           </div>
-          <div className="flex justify-center flex-wrap gap-6 w-full pt-8">
+          <div className="flex justify-center flex-wrap gap-6 pt-8">
             <FormInputText
+              width="w-56"
               labelText="Email"
               {...register("email")}
               error={errors.email?.message}
             />
             <FormInputText
+              width="w-56"
               labelText="Password"
               {...register("password")}
               error={errors.password?.message}
@@ -80,7 +84,9 @@ export default function RegistrationForm() {
             <FormCheckbox {...register("terms")}>
               <p>I accept the terms and conditions</p>
             </FormCheckbox>
-            <FormButton type="submit">Submit</FormButton>
+            <Button type="submit" variant="large">
+              Submit
+            </Button>
           </div>
           {isPending && <p>Submiting Data</p>}
           {isError && <p className="text-red-500">{error.message}</p>}

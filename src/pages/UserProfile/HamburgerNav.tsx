@@ -1,6 +1,7 @@
-//component
-import Button from "@components/Buttons/Button";
-
 export default function HamburgerNav() {
-  return <div className="w-36 md:hidden ml-12 bg-black ">|||</div>;
+  return (
+    <div className="w-24 rounded-sm md:hidden mt-6 ml-12 bg-black cursor-pointer">
+      |||
+    </div>
+  );
 }

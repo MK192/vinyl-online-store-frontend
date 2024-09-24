@@ -3,20 +3,22 @@ import { forwardRef } from "react";
 type Props = {
   labelText: string;
   error?: string;
+  width?: string;
+  height?: string;
 };
 
 export default forwardRef<HTMLInputElement, Props>(function FormInputText(
-  { labelText, error, ...other }: Props,
+  { labelText, error, width = "w-full", height = "h-auto", ...other }: Props,
   ref
 ) {
   return (
-    <div className="w-56 flex flex-col text-start">
-      <label className=" font-semibold">
+    <div className={`flex flex-col text-start ${width}`}>
+      <label className="font-semibold flex flex-col">
         {labelText}
 
         <input
           type="text"
-          className="rounded bg-absenceOfColor px-2"
+          className={`rounded bg-absenceOfColor px-2 ${height}`}
           ref={ref}
           {...other}
         />

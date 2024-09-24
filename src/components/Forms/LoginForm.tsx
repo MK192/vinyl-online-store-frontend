@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 //components
-import FormButton from "@components/Buttons/FormButton";
+import Button from "@components/Buttons/Button";
 import FormInputText from "./FormInputText";
 
 //request
@@ -48,21 +48,25 @@ export default function LoginForm() {
       >
         <h1>Login Form</h1>
         <hr className=" border-absenceOfColor border-2 w-full" />
-        <div className="flex flex-col items-center justify-center flex-wrap gap-6 w-full pt-4  md:flex-row md:items-start">
+        <div className="flex flex-col items-center justify-center flex-wrap gap-6 w-full py-4  md:flex-row md:items-start">
           <FormInputText
+            width="w-56"
             labelText="Email"
             {...register("email")}
             error={errors.email?.message}
           />
           <FormInputText
+            width="w-56"
             labelText="Password"
             {...register("password")}
             error={errors.password?.message}
           />
         </div>
-        <div className="w-32 pt-4">
-          <FormButton type="submit">Login</FormButton>
-        </div>
+
+        <Button type="submit" variant="large">
+          Login
+        </Button>
+
         {isPending && <p>Processing ...</p>}
         {isError && <p className="text-red-500">{error.message}</p>}
       </form>
