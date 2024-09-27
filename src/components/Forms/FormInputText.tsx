@@ -5,10 +5,18 @@ type Props = {
   error?: string;
   width?: string;
   height?: string;
+  type?: "text" | "password";
 };
 
 export default forwardRef<HTMLInputElement, Props>(function FormInputText(
-  { labelText, error, width = "w-full", height = "h-auto", ...other }: Props,
+  {
+    labelText,
+    error,
+    width = "w-full",
+    height = "h-auto",
+    type = "text",
+    ...other
+  }: Props,
   ref
 ) {
   return (
@@ -17,7 +25,7 @@ export default forwardRef<HTMLInputElement, Props>(function FormInputText(
         {labelText}
 
         <input
-          type="text"
+          type={type}
           className={`rounded bg-absenceOfColor px-2 ${height}`}
           ref={ref}
           {...other}

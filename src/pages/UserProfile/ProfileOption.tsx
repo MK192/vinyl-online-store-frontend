@@ -30,7 +30,9 @@ export default function ProfileOption({ selectedOption }: Props) {
     case "address-book":
       return <p>Address Book</p>;
     case "profile":
-      return <Profile profile={logedUserData} />;
+      return (
+        <Profile profile={logedUserData} setLogedUserData={setLogedUserData} />
+      );
     default:
       return <OrderHistory />;
   }

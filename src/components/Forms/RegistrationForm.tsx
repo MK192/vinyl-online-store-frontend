@@ -12,7 +12,7 @@ import UserRegistered from "./UserRegistred";
 import { RegistrationType } from "types/forms";
 
 //schema
-import { registrationFormSchema } from "@schema/registrationFormSchema";
+import { registrationFormSchema } from "@schema/formSchemas";
 
 //request
 import { registerUser } from "requests/userRequest";

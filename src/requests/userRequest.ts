@@ -1,6 +1,10 @@
+//utils
+import { findFormChanges } from "utils/functions";
+
 //type
 import { RegistrationType, LoginType } from "types/forms";
-import { EditUserProfileType, LogedUserType } from "types/user";
+import { LogedUserType } from "types/user";
+import { EditUserProfileType } from "types/forms";
 
 const baseUrl = import.meta.env.VITE_BASE_URL ?? "http://localhost:3001";
 
@@ -71,39 +75,70 @@ export const logoutUser = async () => {
   }
 };
 
+export const changePassword = async (passwords: string[]) => {
+  const currentPassword = passwords[0];
+  const newPassword = passwords[1];
+  try {
+    const res = await fetch(`${baseUrl}/api/v1/user/change-password`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        currentPassword: currentPassword,
+        newPassword: newPassword,
+      }),
+    });
+    const data = await res.json();
+    console.log(data);
+    if (!res.ok) throw new Error(data.error);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error);
+      throw new Error(`${error.message}`);
+    }
+  }
+};
+
 ////// PATCH
-
 export const editUserProfile = async (
-  profile: LogedUserType[] | EditUserProfileType[]
+  profile: (LogedUserType | EditUserProfileType | Blob[])[]
 ) => {
-  const currentProfile = profile[0];
-  const editedProfile = profile[1];
-  const fileImage = profile[2];
-
+  const currentProfile = profile[0] as LogedUserType;
+  const editedProfile = profile[1] as EditUserProfileType;
+  const fileImage = profile[2] as Blob[];
+  const isFormEdited = findFormChanges(currentProfile, editedProfile);
   const formData = new FormData();
-  formData.append("firstName", editedProfile.firstName);
-  formData.append("lastName", editedProfile.lastName);
-  formData.append("birthday", editedProfile.birthday);
   if (fileImage) {
     formData.append("profileImage", fileImage[0]);
   }
-  try {
-    const res = await fetch(`${baseUrl}/api/v1/user`, {
-      method: "PATCH",
-      body: formData,
-      credentials: "include",
-    });
-    const data = await res.json();
 
-    if (!res.ok) throw new Error(data.error);
-    console.log("form complete");
-  } catch (error) {
-    console.error(error);
-    throw new Error(`${error}`);
+  if (isFormEdited || fileImage) {
+    formData.append("firstName", editedProfile.firstName);
+    formData.append("lastName", editedProfile.lastName);
+    formData.append("birthday", editedProfile.birthday);
+
+    try {
+      const res = await fetch(`${baseUrl}/api/v1/user`, {
+        method: "PATCH",
+        body: formData,
+        credentials: "include",
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      console.log("form complete");
+      const updatedProfile = await getUser();
+
+      return updatedProfile;
+    } catch (error) {
+      console.error(error);
+      throw new Error(`${error}`);
+    }
   }
 };
-////// GET
 
+////// GET
 export const getUser = async () => {
   try {
     const res = await fetch(`${baseUrl}/api/v1/user`, {
@@ -115,7 +150,7 @@ export const getUser = async () => {
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error);
-    // console.log(data);
+
     return data;
   } catch (error) {
     console.error(error);

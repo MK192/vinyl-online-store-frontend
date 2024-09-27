@@ -1,20 +1,14 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 //components
 import Button from "@components/Buttons/Button";
+import LogoutButton from "@components/Buttons/LogoutButton";
 import ProfileOption from "./ProfileOption";
 import HamburgerNav from "./HamburgerNav";
 
-//context
-import { UserContextValue } from "@context/UserContex";
-
-//request
-import { logoutUser } from "requests/userRequest";
-
 export default function UserProfileNav() {
   const [activePage, setActivePage] = useState("order-history");
-  const { setLogedUserData } = useContext(UserContextValue);
 
   return (
     <>
@@ -51,17 +45,11 @@ export default function UserProfileNav() {
             </li>
             <li>
               <Link to="/">
-                <Button
-                  fullWidth
-                  handleClick={() => {
-                    logoutUser();
-                    setLogedUserData(null);
-                  }}
-                >
+                <LogoutButton fullWidth>
                   <p className="font-semibold text-xl cursor-pointer">
                     Log Out
                   </p>
-                </Button>
+                </LogoutButton>
               </Link>
             </li>
           </ul>

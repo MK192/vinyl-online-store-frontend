@@ -11,19 +11,22 @@ import FormInputDate from "./FormInputDate";
 import ProfileImage from "@components/ProfileImage";
 
 //type
-import { EditUserProfileType, LogedUserType } from "types/user";
+import { LogedUserType } from "types/user";
+import { EditUserProfileType } from "types/forms";
 
 //request
 import { editUserProfile } from "requests/userRequest";
 
 //schema
-import { editProfileSchema } from "@schema/editProfileSchema";
+import { editProfileSchema } from "@schema/formSchemas";
 
 type Props = {
   profile: LogedUserType | null;
+  setLogedUserData: React.Dispatch<React.SetStateAction<LogedUserType | null>>;
 };
-export default function EditProfileForm({ profile }: Props) {
-  const [imageFile, setImageFile] = useState<null | unknown>(null);
+export default function EditProfileForm({ profile, setLogedUserData }: Props) {
+  const [imageFile, setImageFile] = useState<null | Blob[]>(null);
+
   // React-hook Form
   const {
     register,
@@ -45,6 +48,10 @@ export default function EditProfileForm({ profile }: Props) {
     isPending,
   } = useMutation({
     mutationFn: editUserProfile,
+    onSuccess: (data) => {
+      if (data) setLogedUserData(data);
+      setImageFile(null);
+    },
   });
   const defaultBirthday =
     profile?.birthday === "" ? "1990-01-01" : profile?.birthday;
@@ -53,7 +60,7 @@ export default function EditProfileForm({ profile }: Props) {
     <form
       className="flex flex-col gap-8"
       onSubmit={handleSubmit((formData: EditUserProfileType) =>
-        editProfile([profile as LogedUserType, formData, imageFile])
+        editProfile([profile as LogedUserType, formData, imageFile as Blob[]])
       )}
     >
       <div className="flex flex-col items-start justify-center flex-wrap gap-6 md:items-start md:justify-start">
@@ -78,9 +85,13 @@ export default function EditProfileForm({ profile }: Props) {
         defaultDate={defaultBirthday}
       />
       <div className="flex flex-col gap-4">
-        <ProfileImage imageURL={profile?.profileImage} width="w-20" />
+        <ProfileImage
+          imageURL={profile?.profileImage}
+          width="w-20"
+          height="h-20"
+        />
         <Dropzone
-          onDrop={(acceptedFiles: unknown) => setImageFile(acceptedFiles)}
+          onDrop={(acceptedFiles: Blob[]) => setImageFile(acceptedFiles)}
         >
           {({ getRootProps, getInputProps }) => (
             <section>

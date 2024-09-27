@@ -14,7 +14,7 @@ import { loginUser } from "requests/userRequest";
 import { LoginType } from "types/forms";
 
 //schema
-import { loginFormSchema } from "@schema/loginFormSchema";
+import { loginFormSchema } from "@schema/formSchemas";
 
 export default function LoginForm() {
   const {

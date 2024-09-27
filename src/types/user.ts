@@ -10,9 +10,3 @@ export interface LogedUserType {
   recordsCollection: [];
   updatedAt: string;
 }
-
-export interface EditUserProfileType {
-  firstName: string;
-  lastName: string;
-  birthday: string;
-}
