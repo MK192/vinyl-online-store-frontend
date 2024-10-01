@@ -2,13 +2,12 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import Dropzone from "react-dropzone";
 
 //components
 import Button from "@components/Buttons/Button";
 import FormInputText from "./FormInputText";
 import FormInputDate from "./FormInputDate";
-import ProfileImage from "@components/ProfileImage";
+import Dropzone from "@components/Dropzone";
 
 //type
 import { LogedUserType } from "types/user";
@@ -26,7 +25,7 @@ type Props = {
 };
 export default function EditProfileForm({ profile, setLogedUserData }: Props) {
   const [imageFile, setImageFile] = useState<null | Blob[]>(null);
-
+  const [removeProfileImage, setRemoveProfileImage] = useState(false);
   // React-hook Form
   const {
     register,
@@ -51,6 +50,7 @@ export default function EditProfileForm({ profile, setLogedUserData }: Props) {
     onSuccess: (data) => {
       if (data) setLogedUserData(data);
       setImageFile(null);
+      setRemoveProfileImage(false);
     },
   });
   const defaultBirthday =
@@ -60,7 +60,12 @@ export default function EditProfileForm({ profile, setLogedUserData }: Props) {
     <form
       className="flex flex-col gap-8"
       onSubmit={handleSubmit((formData: EditUserProfileType) =>
-        editProfile([profile as LogedUserType, formData, imageFile as Blob[]])
+        editProfile([
+          profile as LogedUserType,
+          formData,
+          imageFile as Blob[],
+          removeProfileImage,
+        ])
       )}
     >
       <div className="flex flex-col items-start justify-center flex-wrap gap-6 md:items-start md:justify-start">
@@ -76,33 +81,48 @@ export default function EditProfileForm({ profile, setLogedUserData }: Props) {
           {...register("lastName")}
           error={errors.lastName?.message}
         />
-      </div>
-
-      <FormInputDate
-        width="w-5/12"
-        labelText="Birthday"
-        {...register("birthday")}
-        defaultDate={defaultBirthday}
-      />
-      <div className="flex flex-col gap-4">
-        <ProfileImage
-          imageURL={profile?.profileImage}
-          width="w-20"
-          height="h-20"
+        <FormInputDate
+          width="w-5/12"
+          labelText="Birthday"
+          {...register("birthday")}
+          defaultDate={defaultBirthday}
         />
-        <Dropzone
-          onDrop={(acceptedFiles: Blob[]) => setImageFile(acceptedFiles)}
-        >
-          {({ getRootProps, getInputProps }) => (
-            <section>
-              <div {...getRootProps()}>
-                <input {...getInputProps()} />
-                <p>Click or drag image to change profile picture</p>
-              </div>
-            </section>
-          )}
-        </Dropzone>
       </div>
+      {/* <div className="relative w-20">
+        <ProfileImage imageURL={imageUrl} width="w-20" height="h-20" />
+        <div className="absolute top-1 right-1 z-50">
+          <XCircleIcon
+            className="size-6 text-gray-500 cursor-pointer"
+            onClick={() => {
+              deleteProfileImage();
+              setImageUrl("");
+            }}
+          />
+        </div>
+      </div> */}
+      {/* 
+      {/* <Dropzone
+        onDrop={(acceptedFiles: Blob[]) => {
+          setImageFile(acceptedFiles);
+          console.log(acceptedFiles);
+          setImageUrl(URL.createObjectURL(acceptedFiles[0]));
+        }}
+      >
+        {({ getRootProps, getInputProps }) => (
+          <section>
+            <div {...getRootProps()}>
+              <input {...getInputProps()} />
+              <p>Click or drag image here to change profile picture</p>
+            </div>
+          </section>
+        )}
+      </Dropzone> */}
+      <Dropzone
+        profile={profile}
+        setImageFile={setImageFile}
+        setRemoveProfileImage={setRemoveProfileImage}
+      />
+
       <div>
         <Button type="submit">
           <p> Apply Changes</p>

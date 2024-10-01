@@ -55,13 +55,12 @@ export default function ChangePasswordForm() {
         {...register("newPassword")}
         error={errors.newPassword?.message}
       />
-
       <div>
         <Button type="submit">
           <p>Apply Changes</p>
         </Button>
       </div>
-      <div className=" text-lg">
+      <div className="text-lg">
         {isPending && <p>Sending Data</p>}
         {isSuccess && <p className="text-green-600">Password is changed!</p>}
         {isError && <p className="text-red-500">{`${error}`}</p>}

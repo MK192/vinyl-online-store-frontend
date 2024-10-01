@@ -18,8 +18,8 @@ export default forwardRef<HTMLInputElement, Props>(function FormInputDate(
   ref
 ) {
   return (
-    <div>
-      <label className="flex flex-col font-semibold w-full">
+    <div className="w-full ">
+      <label className="font-semibold flex flex-col">
         {labelText}
         <input
           ref={ref}

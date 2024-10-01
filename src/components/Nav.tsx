@@ -13,6 +13,9 @@ import { logoutUser } from "requests/userRequest";
 export default function Nav() {
   const { logedUserData, setLogedUserData } = useContext(UserContextValue);
   const formatedName = `${logedUserData?.firstName} ${logedUserData?.lastName}`;
+  const imageURL = logedUserData?.profileImage
+    ? `${import.meta.env.VITE_BASE_URL}${logedUserData?.profileImage}`
+    : null;
 
   return (
     <nav className="h-14 flex items-center p-6 justify-end gap-4 bg-absenceOfColor border-b-2 border-gray-700">
@@ -20,8 +23,7 @@ export default function Nav() {
       {logedUserData ? (
         <>
           <p>{formatedName}</p>
-
-          <ProfileImage imageURL={logedUserData?.profileImage} />
+          <ProfileImage imageURL={imageURL} />
           <Link to="/">
             <p
               onClick={() => {

@@ -75,6 +75,7 @@ export default function RegistrationForm() {
             />
             <FormInputText
               width="w-56"
+              type="password"
               labelText="Password"
               {...register("password")}
               error={errors.password?.message}

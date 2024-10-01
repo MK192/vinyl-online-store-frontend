@@ -13,7 +13,7 @@ export default function UserProfileNav() {
   return (
     <>
       <nav className="flex flex-col md:flex-row items-start">
-        <div className="hidden md:flex justify-center mt-44 w-3/12 text-left h-screen p-6">
+        <div className="hidden md:flex justify-center mt-44 w-3/12 text-left  p-6">
           <ul className="flex flex-col gap-3 w-52">
             <li>
               <Button
