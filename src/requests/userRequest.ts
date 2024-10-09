@@ -104,7 +104,7 @@ export const changePassword = async (passwords: string[]) => {
 ////// PATCH
 
 /* 
-Function for edit of users profile. 
+Function for edit users profile. 
 UseMutation only can provide 1 argument, that is reason why
 params are transfered from one source.
 
@@ -116,21 +116,29 @@ params are transfered from one source.
  4) removeProfileImage - boolean that should signal if profile image
  should be removed. 
  */
-export const editUserProfile = async (
-  profile: (LogedUserType | EditUserProfileType | Blob[] | boolean)[]
-) => {
-  const currentProfile = profile[0] as LogedUserType;
-  const editedProfile = profile[1] as EditUserProfileType;
-  const fileImage = profile[2] as Blob[];
-  const removeProfileImage = profile[3] as boolean;
+
+type EditUserType = {
+  currentProfile: LogedUserType | null;
+  editedProfile: EditUserProfileType;
+  imageFile: Blob[] | null;
+  removeProfileImage: boolean;
+};
+export const editUserProfile = async ({
+  currentProfile,
+  editedProfile,
+  imageFile,
+  removeProfileImage,
+}: EditUserType) => {
   const isFormEdited = findFormChanges(currentProfile, editedProfile);
   const formData = new FormData();
 
-  if (fileImage) {
-    formData.append("profileImage", fileImage[0]);
+  if (imageFile) {
+    formData.append("profileImage", imageFile[0]);
   }
+
   if (removeProfileImage) deleteProfileImage();
-  if (isFormEdited || fileImage || removeProfileImage) {
+
+  if (isFormEdited || imageFile || removeProfileImage) {
     formData.append("firstName", editedProfile.firstName);
     formData.append("lastName", editedProfile.lastName);
     formData.append("birthday", editedProfile.birthday);
@@ -145,7 +153,6 @@ export const editUserProfile = async (
       if (!res.ok) throw new Error(data.error);
       console.log("form complete");
       const updatedProfile = await getUser();
-
       return updatedProfile;
     } catch (error) {
       console.error(error);

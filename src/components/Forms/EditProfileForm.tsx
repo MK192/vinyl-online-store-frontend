@@ -7,7 +7,7 @@ import { useMutation } from "@tanstack/react-query";
 import Button from "@components/Buttons/Button";
 import FormInputText from "./FormInputText";
 import FormInputDate from "./FormInputDate";
-import Dropzone from "@components/Dropzone";
+import ProfileDropzone from "pages/UserProfile/ProfileDropzone";
 
 //type
 import { LogedUserType } from "types/user";
@@ -58,77 +58,53 @@ export default function EditProfileForm({ profile, setLogedUserData }: Props) {
 
   return (
     <form
-      className="flex flex-col gap-8"
+      className="flex flex-col gap-8 items-center md:items-start"
       onSubmit={handleSubmit((formData: EditUserProfileType) =>
-        editProfile([
-          profile as LogedUserType,
-          formData,
-          imageFile as Blob[],
+        editProfile({
+          currentProfile: profile,
+          editedProfile: formData,
+          imageFile,
           removeProfileImage,
-        ])
+        })
       )}
     >
-      <div className="flex flex-col items-start justify-center flex-wrap gap-6 md:items-start md:justify-start">
+      <div className="w-full sm:w-8/12 md:w-full flex flex-col gap-8 ">
+        <h2 className="text-gray-300 text-3xl md:text-start font-semibold ">
+          Edit Profile
+        </h2>
         <FormInputText
-          width="w-8/12"
+          width="md:w-8/12"
           labelText="First name"
           {...register("firstName")}
           error={errors.firstName?.message}
         />
         <FormInputText
-          width="w-8/12"
+          width="md:w-8/12"
           labelText="Last Name"
           {...register("lastName")}
           error={errors.lastName?.message}
         />
         <FormInputDate
-          width="w-5/12"
+          width="w-8/12 md:w-6/12"
           labelText="Birthday"
           {...register("birthday")}
           defaultDate={defaultBirthday}
         />
-      </div>
-      {/* <div className="relative w-20">
-        <ProfileImage imageURL={imageUrl} width="w-20" height="h-20" />
-        <div className="absolute top-1 right-1 z-50">
-          <XCircleIcon
-            className="size-6 text-gray-500 cursor-pointer"
-            onClick={() => {
-              deleteProfileImage();
-              setImageUrl("");
-            }}
+        <div className="w-8/12">
+          <ProfileDropzone
+            text="Click or drop files here"
+            profile={profile}
+            setImageFile={setImageFile}
+            setRemoveProfileImage={setRemoveProfileImage}
           />
         </div>
-      </div> */}
-      {/* 
-      {/* <Dropzone
-        onDrop={(acceptedFiles: Blob[]) => {
-          setImageFile(acceptedFiles);
-          console.log(acceptedFiles);
-          setImageUrl(URL.createObjectURL(acceptedFiles[0]));
-        }}
-      >
-        {({ getRootProps, getInputProps }) => (
-          <section>
-            <div {...getRootProps()}>
-              <input {...getInputProps()} />
-              <p>Click or drag image here to change profile picture</p>
-            </div>
-          </section>
-        )}
-      </Dropzone> */}
-      <Dropzone
-        profile={profile}
-        setImageFile={setImageFile}
-        setRemoveProfileImage={setRemoveProfileImage}
-      />
-
-      <div>
-        <Button type="submit">
-          <p> Apply Changes</p>
-        </Button>
-        {isPending && <p>Sending Data</p>}
-        {isError && <p className="text-red-500">{`${error}`}</p>}
+        <div>
+          <Button type="submit">
+            <p> Apply Changes</p>
+          </Button>
+          {isPending && <p>Sending Data</p>}
+          {isError && <p className="text-red-500">{`${error}`}</p>}
+        </div>
       </div>
     </form>
   );

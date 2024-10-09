@@ -18,14 +18,14 @@ export default forwardRef<HTMLInputElement, Props>(function FormInputDate(
   ref
 ) {
   return (
-    <div className="w-full ">
+    <div className={`${width}`}>
       <label className="font-semibold flex flex-col">
         {labelText}
         <input
           ref={ref}
           {...other}
           type="date"
-          className={`bg-absenceOfColor p-2 rounded-sm ${width} ${height}`}
+          className={`bg-absenceOfColor p-2 rounded-sm  ${height}`}
           defaultValue={defaultDate}
         />
       </label>

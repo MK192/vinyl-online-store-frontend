@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 
 type Props = {
   backgroundColor?: string;
+  textColor?: string;
   type?: "submit" | "reset" | "button";
   fullWidth?: boolean;
   handleClick?: () => void;
@@ -11,28 +12,28 @@ type Props = {
 
 export default function Button({
   backgroundColor = "absenceOfColor",
-  fullWidth = false,
+  textColor = "white",
   type = "button",
-  variant = "medium",
+  fullWidth = false,
   handleClick,
-
+  variant = "medium",
   children,
 }: Props) {
   let style = fullWidth
-    ? `bg-${backgroundColor} rounded-sm p-2 w-full text-wrap`
-    : `bg-${backgroundColor} rounded-sm py-2 px-12 text-wrap`;
+    ? `bg-${backgroundColor} text-${textColor} rounded-sm p-2 w-full text-wrap`
+    : `bg-${backgroundColor} text-${textColor} rounded-sm py-2 px-12 text-wrap`;
 
   if (!fullWidth) {
     switch (variant) {
       case "small":
-        style = `bg-${backgroundColor}  rounded-sm py-2 px-8 text-wrap`;
+        style = `bg-${backgroundColor}  text-${textColor} rounded-sm py-2 px-8 text-wrap`;
         break;
       case "large":
-        style = `bg-${backgroundColor} rounded-sm py-2 px-20  text-wrap`;
+        style = `bg-${backgroundColor}  text-${textColor} rounded-sm py-2 px-20  text-wrap`;
         break;
 
       default:
-        style = `bg-${backgroundColor} rounded-sm py-2 px-12 text-wrap`;
+        style = `bg-${backgroundColor}  text-${textColor} rounded-sm py-2 px-12 text-wrap`;
     }
   }
   return (

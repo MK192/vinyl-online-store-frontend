@@ -2,10 +2,13 @@ import { useContext, useEffect } from "react";
 
 //components
 import OrderHistory from "./OrderHistory";
-import Profile from "./Profile";
+import { MemoizedProfile } from "./Profile";
 
 //context
 import { UserContextValue } from "@context/UserContex";
+
+//enums
+import { EProfile_Page_Options } from "enums/enums";
 
 //request
 import { getUser } from "requests/userRequest";
@@ -13,7 +16,7 @@ import { getUser } from "requests/userRequest";
 type Props = {
   selectedOption: string;
 };
-export default function ProfileOption({ selectedOption }: Props) {
+export default function ProfileOptions({ selectedOption }: Props) {
   const { logedUserData, setLogedUserData } = useContext(UserContextValue);
   useEffect(() => {
     async function getUserData() {
@@ -24,14 +27,17 @@ export default function ProfileOption({ selectedOption }: Props) {
   }, []);
 
   switch (selectedOption) {
-    case "order-history":
+    case EProfile_Page_Options.ORDER_HISTORY:
       return <OrderHistory />;
 
-    case "address-book":
+    case EProfile_Page_Options.ADDRESS_BOOK:
       return <p>Address Book</p>;
-    case "profile":
+    case EProfile_Page_Options.PROFILE:
       return (
-        <Profile profile={logedUserData} setLogedUserData={setLogedUserData} />
+        <MemoizedProfile
+          profile={logedUserData}
+          setLogedUserData={setLogedUserData}
+        />
       );
     default:
       return <OrderHistory />;

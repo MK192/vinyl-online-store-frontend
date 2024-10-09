@@ -1,12 +1,12 @@
 //components
 import Nav from "@components/Nav";
-import UserProfileNav from "./UserProfileNav";
+import UserProfileContent from "./UserProfileContent";
 
 export default function UserProfile() {
   return (
     <>
       <Nav />
-      <UserProfileNav />
+      <UserProfileContent />
     </>
   );
 }

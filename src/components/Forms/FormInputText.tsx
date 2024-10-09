@@ -20,12 +20,13 @@ export default forwardRef<HTMLInputElement, Props>(function FormInputText(
   ref
 ) {
   return (
-    <div className={`flex flex-col text-start ${width}`}>
+    <div className={`flex flex-col ${width}`}>
       <label className="font-semibold flex flex-col">
         {labelText}
 
         <input
           type={type}
+          autoComplete="on"
           className={`rounded bg-absenceOfColor px-2 ${height}`}
           ref={ref}
           {...other}
