@@ -1,20 +1,50 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 
+//components
+import ProfileImage from "./ProfileImage";
+
+//context
+import { UserContextValue } from "@context/UserContex";
+
+//request
+import { logoutUser } from "requests/userRequest";
+
 export default function Nav() {
+  const { logedUserData, setLogedUserData } = useContext(UserContextValue);
+  const formatedName = `${logedUserData?.firstName} ${logedUserData?.lastName}`;
+  const imageURL = logedUserData?.profileImage
+    ? `${import.meta.env.VITE_BASE_URL}${logedUserData?.profileImage}`
+    : null;
+
   return (
-    <nav className="h-14 flex items-center p-6 justify-end gap-4 bg-jollyChristmas">
+    <nav className="h-14 flex items-center p-6 justify-end gap-4 bg-absenceOfColor border-b-2 border-gray-700">
       <img src="vinyl-record.png" className="w-9 " alt="vinyl record" />
-      <Link to={"/registration"}>
-        <strong className="cursor-pointer">Register</strong>
-      </Link>
-      <Link to={"/login"}>
-        <strong className="cursor-pointer">Login</strong>
-      </Link>
-      <img
-        src="blank-user.png "
-        className="w-7 border-[1px] border-blackHowl rounded-full bg-slate-50 cursor-pointer"
-        alt="generic user image"
-      />
+      {logedUserData ? (
+        <>
+          <p>{formatedName}</p>
+          <ProfileImage imageURL={imageURL} />
+          <Link to="/">
+            <p
+              onClick={() => {
+                logoutUser();
+                setLogedUserData(null);
+              }}
+            >
+              Logout
+            </p>
+          </Link>
+        </>
+      ) : (
+        <>
+          <Link to={"/registration"}>
+            <strong className="cursor-pointer">Register</strong>
+          </Link>
+          <Link to={"/login"}>
+            <strong className="cursor-pointer">Login</strong>
+          </Link>
+        </>
+      )}
     </nav>
   );
 }
