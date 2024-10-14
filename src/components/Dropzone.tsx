@@ -1,10 +1,11 @@
+import { ReactNode } from "react";
 import { useDropzone } from "react-dropzone";
 
 type Props = {
-  text: string;
+  children: ReactNode;
   onDrop: (acceptedFiles: Blob[]) => void;
 };
-export default function Dropzone({ text, onDrop }: Props) {
+export default function Dropzone({ children, onDrop }: Props) {
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
       "image/*": [],
@@ -15,7 +16,7 @@ export default function Dropzone({ text, onDrop }: Props) {
     <section>
       <div {...getRootProps({ className: "dropzone" })}>
         <input {...getInputProps()} />
-        <p>{text}</p>
+        {children}
       </div>
     </section>
   );

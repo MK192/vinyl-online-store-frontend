@@ -9,8 +9,6 @@ import { UserContextValue } from "@context/UserContex";
 
 //enums
 import { EProfile_Page_Options } from "enums/enums";
-
-//request
 import { getUser } from "requests/userRequest";
 
 type Props = {

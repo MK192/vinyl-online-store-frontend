@@ -92,7 +92,6 @@ export default function EditProfileForm({ profile, setLogedUserData }: Props) {
         />
         <div className="w-8/12">
           <ProfileDropzone
-            text="Click or drop files here"
             profile={profile}
             setImageFile={setImageFile}
             setRemoveProfileImage={setRemoveProfileImage}

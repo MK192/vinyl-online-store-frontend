@@ -135,6 +135,7 @@ export const editUserProfile = async ({
   if (imageFile) {
     formData.append("profileImage", imageFile[0]);
   }
+  if (removeProfileImage && !currentProfile?.profileImage) return;
 
   if (removeProfileImage) deleteProfileImage();
 
@@ -174,6 +175,25 @@ export const getUser = async () => {
     const data = await res.json();
     if (!res.ok) throw new Error(data.error);
 
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw new Error(`${error}`);
+  }
+};
+
+export const isAuth = async () => {
+  try {
+    const res = await fetch(`${baseUrl}/api/v1/auth/check-auth`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    console.log(data);
     return data;
   } catch (error) {
     console.error(error);
