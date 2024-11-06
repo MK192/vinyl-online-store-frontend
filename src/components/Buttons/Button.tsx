@@ -6,7 +6,8 @@ type Props = {
   type?: "submit" | "reset" | "button";
   fullWidth?: boolean;
   handleClick?: () => void;
-  variant?: "small" | "medium" | "large";
+  disabled?: boolean;
+  variant?: "content" | "small" | "medium" | "large";
   children: ReactNode;
 };
 
@@ -15,6 +16,7 @@ export default function Button({
   textColor = "white",
   type = "button",
   fullWidth = false,
+  disabled = false,
   handleClick,
   variant = "medium",
   children,
@@ -25,6 +27,9 @@ export default function Button({
 
   if (!fullWidth) {
     switch (variant) {
+      case "content":
+        style = `bg-${backgroundColor}  text-${textColor} rounded-sm py-2 px-0 text-wrap`;
+        break;
       case "small":
         style = `bg-${backgroundColor}  text-${textColor} rounded-sm py-2 px-8 text-wrap`;
         break;
@@ -37,7 +42,12 @@ export default function Button({
     }
   }
   return (
-    <button type={type} className={style} onClick={handleClick}>
+    <button
+      type={type}
+      className={style}
+      onClick={handleClick}
+      disabled={disabled}
+    >
       {children}
     </button>
   );

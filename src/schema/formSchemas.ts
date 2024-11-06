@@ -1,5 +1,8 @@
 import { z } from "zod";
 
+//regex
+import { phoneRegex, zipRegex } from "regex";
+
 export const editProfileSchema = z.object({
   firstName: z.string().min(1, { message: "no value" }),
   lastName: z.string().min(1, { message: "no value" }),
@@ -30,4 +33,22 @@ export const registrationFormSchema = z.object({
 export const changePasswordFormSchema = z.object({
   currentPassword: z.string().min(4, { message: "password too short" }),
   newPassword: z.string().min(4, { message: "password too short" }),
+});
+
+export const editAddressFormSchema = z.object({
+  apartment: z.string().optional(),
+  city: z.string().min(1, { message: "required field" }),
+  company: z.string().optional(),
+  country: z.string().min(1, { message: "select option" }),
+  firstName: z.string().min(1, { message: "required field" }),
+  isDefault: z.boolean(),
+  lastName: z.string().min(1, { message: "required field" }),
+  phone: z
+    .union([z.string().min(4), z.string().length(0)])
+    .optional()
+    .transform((val) => (val === "" ? undefined : val)),
+
+  postalCode: z.string().min(1, { message: "required field" }),
+  state: z.string().min(1, { message: "select option" }),
+  streetAddress: z.string().min(1, { message: "required field" }),
 });

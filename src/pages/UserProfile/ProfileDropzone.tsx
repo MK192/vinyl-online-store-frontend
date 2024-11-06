@@ -52,7 +52,7 @@ export default function ProfileDropzone({
       </Dropzone>
 
       <XCircleIcon
-        className="size-6 bg-absenceOfColor text-gray-400  rounded-full cursor-pointer absolute top-1 left-14"
+        className="size-6 bg-absenceOfColor text-orange-300  rounded-full cursor-pointer absolute top-1 left-14"
         onClick={() => {
           setImageFile(null);
           setFileURL("blank-user.png");

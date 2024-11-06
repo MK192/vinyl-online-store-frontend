@@ -38,7 +38,6 @@ export default function EditProfileForm({ profile, setLogedUserData }: Props) {
       lastName: profile?.lastName ?? " ",
     },
   });
-
   // Tanstack query
   const {
     mutate: editProfile,
@@ -48,9 +47,11 @@ export default function EditProfileForm({ profile, setLogedUserData }: Props) {
   } = useMutation({
     mutationFn: editUserProfile,
     onSuccess: (data) => {
-      if (data) setLogedUserData(data);
-      setImageFile(null);
-      setRemoveProfileImage(false);
+      if (data) {
+        setLogedUserData(data);
+        setImageFile(null);
+        setRemoveProfileImage(false);
+      }
     },
   });
   const defaultBirthday =
@@ -72,6 +73,7 @@ export default function EditProfileForm({ profile, setLogedUserData }: Props) {
         <h2 className="text-gray-300 text-3xl md:text-start font-semibold ">
           Edit Profile
         </h2>
+
         <FormInputText
           width="md:w-8/12"
           labelText="First name"

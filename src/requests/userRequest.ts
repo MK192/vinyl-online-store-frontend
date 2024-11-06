@@ -2,7 +2,7 @@
 import { findFormChanges } from "utils/functions";
 
 //type
-import { RegistrationType, LoginType } from "types/forms";
+import { RegistrationType, LoginType, EditAddressType } from "types/forms";
 import { LogedUserType } from "types/user";
 import { EditUserProfileType } from "types/forms";
 
@@ -75,6 +75,7 @@ export const logoutUser = async () => {
   }
 };
 
+// Function for changing user password.
 export const changePassword = async (passwords: string[]) => {
   const currentPassword = passwords[0];
   const newPassword = passwords[1];
@@ -101,6 +102,59 @@ export const changePassword = async (passwords: string[]) => {
   }
 };
 
+type AddUserProfileArgumentType = {
+  formData: EditAddressType;
+  id: string | undefined;
+};
+export const addUserAddress = async (data: AddUserProfileArgumentType) => {
+  const {
+    country,
+    firstName,
+    lastName,
+    company,
+    streetAddress,
+    apartment,
+    city,
+    state,
+    phone,
+    postalCode,
+    isDefault,
+  } = data.formData;
+
+  console.log(data.formData);
+  try {
+    const res = await fetch(`${baseUrl}/api/v1/user/addresses`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        country: country,
+        firstName: firstName,
+        lastName: lastName,
+        company: company,
+        streetAddress: streetAddress,
+        apartment: apartment,
+        city: city,
+        state: state,
+        postalCode: postalCode,
+        phone: phone,
+        isDefault: isDefault,
+      }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    console.log("address updated");
+    const updatedProfile = await getUser();
+    return updatedProfile;
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error);
+      throw new Error(`${error.message}`);
+    }
+  }
+};
 ////// PATCH
 
 /* 
@@ -116,19 +170,19 @@ params are transfered from one source.
  4) removeProfileImage - boolean that should signal if profile image
  should be removed. 
  */
-
-type EditUserType = {
+export interface EditUserProfileArgumentType {
   currentProfile: LogedUserType | null;
   editedProfile: EditUserProfileType;
   imageFile: Blob[] | null;
   removeProfileImage: boolean;
-};
+}
+
 export const editUserProfile = async ({
   currentProfile,
   editedProfile,
   imageFile,
   removeProfileImage,
-}: EditUserType) => {
+}: EditUserProfileArgumentType) => {
   const isFormEdited = findFormChanges(currentProfile, editedProfile);
   const formData = new FormData();
 
@@ -156,8 +210,47 @@ export const editUserProfile = async ({
       const updatedProfile = await getUser();
       return updatedProfile;
     } catch (error) {
+      if (error instanceof Error) {
+        console.error(error);
+        throw new Error(`${error.message}`);
+      }
+    }
+  }
+};
+
+type EditAddressArgumentType = { _id: string; formData: EditAddressType };
+export const editUserAddress = async ({
+  _id,
+  formData,
+}: EditAddressArgumentType) => {
+  console.log(formData);
+  try {
+    const res = await fetch(`${baseUrl}/api/v1/user/addresses/${_id}`, {
+      method: "PATCH",
+      body: JSON.stringify({
+        apartment: formData.apartment,
+        city: formData.city,
+        country: formData.country,
+        company: formData.company,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        isDefault: formData.isDefault,
+        phone: formData.phone,
+        postalCode: formData.postalCode,
+        state: formData.state,
+        streetAddress: formData.streetAddress,
+      }),
+      credentials: "include",
+    });
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.error);
+    const updatedProfile = await getUser();
+    return updatedProfile;
+  } catch (error) {
+    if (error instanceof Error) {
       console.error(error);
-      throw new Error(`${error}`);
+      throw new Error(`${error.message}`);
     }
   }
 };
@@ -177,8 +270,10 @@ export const getUser = async () => {
 
     return data;
   } catch (error) {
-    console.error(error);
-    throw new Error(`${error}`);
+    if (error instanceof Error) {
+      console.error(error);
+      throw new Error(`${error.message}`);
+    }
   }
 };
 
@@ -193,16 +288,17 @@ export const isAuth = async () => {
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error);
-    console.log(data);
+
     return data;
   } catch (error) {
-    console.error(error);
-    throw new Error(`${error}`);
+    if (error instanceof Error) {
+      console.error(error);
+      throw new Error(`${error.message}`);
+    }
   }
 };
 
 /////DELETE
-
 export const deleteProfileImage = async () => {
   try {
     const res = await fetch(`${baseUrl}/api/v1/user/delete-profile-image`, {
@@ -214,6 +310,27 @@ export const deleteProfileImage = async () => {
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error);
+      throw new Error(`${error.message}`);
+    }
+  }
+};
+
+export const deleteUserAddress = async (addressId: string) => {
+  try {
+    const res = await fetch(`${baseUrl}/api/v1/user/addresses/${addressId}`, {
+      method: "DELETE",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    const updatedProfile = await getUser();
+    return updatedProfile;
   } catch (error) {
     if (error instanceof Error) {
       console.error(error);

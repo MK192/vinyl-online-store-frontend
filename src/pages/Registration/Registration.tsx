@@ -1,5 +1,5 @@
 //components
-import RegistrationForm from "@components/Forms/RegistrationForm";
+import { RegistrationForm } from "@components/Forms/RegistrationForm";
 import BackToHome from "@components/BackToHome";
 
 export default function Registration() {

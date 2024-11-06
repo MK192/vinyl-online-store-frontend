@@ -4,10 +4,9 @@ import { useMutation } from "@tanstack/react-query";
 
 // components
 import Button from "@components/Buttons/Button";
-import FormInputText from "./FormInputText";
-import FormCheckbox from "./FormCheckbox";
+import FormInputText from "@components/Forms/FormInputText";
+import FormCheckbox from "@components/Forms/FormCheckbox";
 import UserRegistered from "./UserRegistred";
-
 //type
 import { RegistrationType } from "types/forms";
 

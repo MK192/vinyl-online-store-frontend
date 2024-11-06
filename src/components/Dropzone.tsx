@@ -12,6 +12,7 @@ export default function Dropzone({ children, onDrop }: Props) {
     },
     onDrop: onDrop,
   });
+
   return (
     <section>
       <div {...getRootProps({ className: "dropzone" })}>

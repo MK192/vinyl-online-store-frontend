@@ -25,7 +25,7 @@ export default function LogoutButton({
   variant = "medium",
   children,
 }: Props) {
-  const { setLogedUserData } = useContext(UserContextValue);
+  // const { setLogedUserData } = useContext(UserContextValue);
 
   return (
     <Button
@@ -35,7 +35,7 @@ export default function LogoutButton({
       variant={variant}
       handleClick={() => {
         logoutUser();
-        setLogedUserData(null);
+        // setLogedUserData(null);
       }}
     >
       {children}
