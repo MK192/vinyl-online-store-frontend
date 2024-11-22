@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 //components
@@ -8,7 +8,7 @@ import ProfileImage from "./ProfileImage";
 import { UserContextValue } from "@context/UserContex";
 
 //request
-import { logoutUser } from "requests/userRequest";
+import { logoutUser, isAuth, getUser } from "requests/userRequest";
 
 export default function Nav() {
   const { logedUserData, setLogedUserData } = useContext(UserContextValue);
@@ -16,6 +16,19 @@ export default function Nav() {
   const imageURL = logedUserData?.profileImage
     ? `${import.meta.env.VITE_BASE_URL}${logedUserData?.profileImage}`
     : null;
+
+  useEffect(() => {
+    const isUserLoged = async () => {
+      await isAuth()
+        .then((data) => {
+          if (data.authenticated) {
+            return getUser();
+          }
+        })
+        .then((res) => setLogedUserData(res));
+    };
+    isUserLoged();
+  }, [setLogedUserData]);
 
   return (
     <nav className="h-14 flex items-center p-6 justify-end gap-4 bg-absenceOfColor border-b-2 border-gray-700">

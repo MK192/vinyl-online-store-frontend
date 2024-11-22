@@ -6,6 +6,8 @@ import ProfileOptions from "./ProfileOptions";
 import Hamburger from "@components/Hamburger";
 import Modal from "@components/Modals/Modal";
 import UserProfileNavResponsive from "./UserProfileNavResponsive";
+
+//enums
 import { EProfile_Page_Options } from "enums/enums";
 
 export default function UserProfileContent() {

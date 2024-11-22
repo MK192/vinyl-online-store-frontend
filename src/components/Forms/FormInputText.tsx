@@ -27,7 +27,7 @@ export default forwardRef<HTMLInputElement, Props>(function FormInputText(
         <input
           type={type}
           autoComplete="on"
-          className={`rounded bg-absenceOfColor px-2 ${height}`}
+          className={`rounded bg-absenceOfColor px-2  ${height}`}
           ref={ref}
           {...other}
         />

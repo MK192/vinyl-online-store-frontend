@@ -12,14 +12,12 @@ type Props = {
   profile: LogedUserType | null;
   setImageFile: (acceptedFiles: Blob[] | null) => void;
   setRemoveProfileImage: (removeProfileImage: boolean) => void;
-  text: string;
 };
 
 export default function ProfileDropzone({
   profile,
   setImageFile,
   setRemoveProfileImage,
-  text,
 }: Props) {
   /* if new image is not droped,
    then current photo or default profil image is used for ProfilImage */
@@ -33,32 +31,33 @@ export default function ProfileDropzone({
   }, []);
 
   return (
-    <section className="flex flex-col gap-4 ">
-      <div className="relative w-20">
-        <ProfileImage
-          imageURL={fileURL ?? imageURL}
-          width="w-20"
-          height="h-20"
-          onLoad={() => {
-            URL.revokeObjectURL(fileURL as string);
-          }}
-        />
-        <XCircleIcon
-          className="size-6 bg-absenceOfColor text-gray-400  rounded-full cursor-pointer absolute top-1 right-1"
-          onClick={() => {
-            setImageFile(null);
-            setFileURL("blank-user.png");
-            setRemoveProfileImage(true);
-          }}
-        />
-      </div>
-
+    <section className="flex flex-col gap-4 relative  ">
       <Dropzone
         onDrop={(acceptedFiles) => {
           setFileURL(URL.createObjectURL(acceptedFiles[0]));
           setImageFile(acceptedFiles);
         }}
-        text={text}
+      >
+        <div className="w-full">
+          <ProfileImage
+            imageURL={fileURL ?? imageURL}
+            width="w-20"
+            height="h-20"
+            onLoad={() => {
+              URL.revokeObjectURL(fileURL as string);
+            }}
+          />
+          <p>Click or drop image here</p>
+        </div>
+      </Dropzone>
+
+      <XCircleIcon
+        className="size-6 bg-absenceOfColor text-orange-300  rounded-full cursor-pointer absolute top-1 left-14"
+        onClick={() => {
+          setImageFile(null);
+          setFileURL("blank-user.png");
+          setRemoveProfileImage(true);
+        }}
       />
     </section>
   );
