@@ -11,7 +11,7 @@ import ProfileDropzone from "pages/UserProfile/ProfileDropzone";
 
 //type
 import { LogedUserType } from "types/user";
-import { EditUserProfileType } from "types/forms";
+import { EditUserProfileFormType } from "types/forms";
 
 //request
 import { editUserProfile } from "requests/userRequest";
@@ -31,14 +31,13 @@ export default function EditProfileForm({ profile, setLogedUserData }: Props) {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<EditUserProfileType>({
+  } = useForm<EditUserProfileFormType>({
     resolver: zodResolver(editProfileSchema),
     defaultValues: {
       firstName: profile?.firstName ?? " ",
       lastName: profile?.lastName ?? " ",
     },
   });
-
   // Tanstack query
   const {
     mutate: editProfile,
@@ -48,9 +47,11 @@ export default function EditProfileForm({ profile, setLogedUserData }: Props) {
   } = useMutation({
     mutationFn: editUserProfile,
     onSuccess: (data) => {
-      if (data) setLogedUserData(data);
-      setImageFile(null);
-      setRemoveProfileImage(false);
+      if (data) {
+        setLogedUserData(data);
+        setImageFile(null);
+        setRemoveProfileImage(false);
+      }
     },
   });
   const defaultBirthday =
@@ -59,7 +60,7 @@ export default function EditProfileForm({ profile, setLogedUserData }: Props) {
   return (
     <form
       className="flex flex-col gap-8 items-center md:items-start"
-      onSubmit={handleSubmit((formData: EditUserProfileType) =>
+      onSubmit={handleSubmit((formData: EditUserProfileFormType) =>
         editProfile({
           currentProfile: profile,
           editedProfile: formData,
@@ -72,6 +73,7 @@ export default function EditProfileForm({ profile, setLogedUserData }: Props) {
         <h2 className="text-gray-300 text-3xl md:text-start font-semibold ">
           Edit Profile
         </h2>
+
         <FormInputText
           width="md:w-8/12"
           labelText="First name"
@@ -92,7 +94,6 @@ export default function EditProfileForm({ profile, setLogedUserData }: Props) {
         />
         <div className="w-8/12">
           <ProfileDropzone
-            text="Click or drop files here"
             profile={profile}
             setImageFile={setImageFile}
             setRemoveProfileImage={setRemoveProfileImage}

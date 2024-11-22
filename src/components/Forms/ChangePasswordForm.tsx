@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 //components
@@ -9,11 +10,10 @@ import FormInputText from "./FormInputText";
 import { changePassword } from "requests/userRequest";
 
 //type
-import { ChangePasswordType } from "types/forms";
+import { ChangePasswordFormType } from "types/forms";
 
 //schema
 import { changePasswordFormSchema } from "@schema/formSchemas";
-import { useMutation } from "@tanstack/react-query";
 
 export default function ChangePasswordForm() {
   // React-hook Form
@@ -21,7 +21,7 @@ export default function ChangePasswordForm() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ChangePasswordType>({
+  } = useForm<ChangePasswordFormType>({
     resolver: zodResolver(changePasswordFormSchema),
   });
 

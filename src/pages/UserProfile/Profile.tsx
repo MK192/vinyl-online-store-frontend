@@ -12,6 +12,8 @@ type Props = {
   setLogedUserData: React.Dispatch<React.SetStateAction<LogedUserType | null>>;
 };
 function Profile({ profile, setLogedUserData }: Props) {
+  console.log(profile);
+
   return (
     <div className="w-full text-start md:w-9/12">
       <div className="flex flex-col gap-11 lg:flex-row">
@@ -21,7 +23,6 @@ function Profile({ profile, setLogedUserData }: Props) {
             setLogedUserData={setLogedUserData}
           />
         </div>
-
         <div className="w-full md:pl-9 lg:w-6/12 lg:pl-0">
           <ChangePasswordForm />
         </div>

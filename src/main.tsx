@@ -12,6 +12,12 @@ import UserProfile from "pages/UserProfile/UserProfile.tsx";
 //context
 import UserContext from "@context/UserContex.tsx";
 
+//utils
+import {
+  protectedLoaderFunction,
+  signedLoaderFunction,
+} from "utils/functions.ts";
+
 //style
 import "./index.css";
 
@@ -20,15 +26,19 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
   },
+
   {
+    loader: signedLoaderFunction,
     path: "/registration",
     element: <Registration />,
   },
   {
+    loader: signedLoaderFunction,
     path: "/login",
     element: <Login />,
   },
   {
+    loader: protectedLoaderFunction,
     path: "/user-profile",
     element: <UserProfile />,
   },
