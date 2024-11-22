@@ -3,10 +3,11 @@ import clsx from "clsx";
 
 type Props = {
   children: ReactNode;
+  isDisabled?: boolean;
 };
 
 export default forwardRef<HTMLInputElement, Props>(function FormCheckbox(
-  { children, ...other }: Props,
+  { children, isDisabled = false, ...other }: Props,
   ref
 ) {
   return (
@@ -15,6 +16,7 @@ export default forwardRef<HTMLInputElement, Props>(function FormCheckbox(
         type="checkbox"
         className={`${clsx("w-5 rounded-sm  accent-absenceOfColor")}`}
         ref={ref}
+        disabled={isDisabled}
         {...other}
       />
       {children}

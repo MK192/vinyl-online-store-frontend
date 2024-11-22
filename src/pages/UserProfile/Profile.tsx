@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { memo } from "react";
 
 //components
 import EditProfileForm from "@components/Forms/EditProfileForm";

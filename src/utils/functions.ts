@@ -3,9 +3,6 @@ import { redirect } from "react-router-dom";
 //request
 import { isAuth } from "requests/userRequest";
 
-//type
-import { LogedUserType, EditUserProfileType } from "types/user";
-
 //function that check if some form field is edited, if not to prevent sending request
 export const findFormChanges = (currentProfile: any, editedProfile: any) => {
   let changes = false;

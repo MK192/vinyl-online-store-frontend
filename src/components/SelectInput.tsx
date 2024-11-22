@@ -1,76 +1,45 @@
 import { useEffect, useState } from "react";
-import { useController, UseControllerProps } from "react-hook-form";
+import { Control, FieldValues, useController, Path } from "react-hook-form";
 import Select from "react-select";
 
 // type
 import { ReactSelectOptions } from "types/general";
 
-type Props = {
+interface Props<T extends FieldValues> {
+  control: Control<T>;
   defaultValue: string | null;
-  control: UseControllerProps<any>;
-  name: string;
+  name: Path<T>;
   selectTitle: string;
   options: ReactSelectOptions[];
   error: string | undefined;
-};
+}
 
-export default function SelectInput({
+export default function SelectInput<T extends FieldValues>({
   defaultValue,
   control,
   name,
   selectTitle,
   options,
   error,
-}: Props) {
-  // const [options, setOptions] = useState<Options[]>([]);
-  const [selected, setSelected] = useState<
-    ReactSelectOptions | null | undefined
-  >(null);
-
+}: Props<T>) {
+  const [selected, setSelected] = useState<ReactSelectOptions | null>(null);
   const { field } = useController({
     name,
     control,
   });
 
-  // useEffect(() => {
-  //   const fetchOptions = async () => {
-  //     const res = await fetchFunction();
-  //     const defaultCountry = defaultValue
-  //       ? res.find((c) => c.label === defaultValue)
-  //       : res[0];
-
-  //     setOptions(res);
-  //     setSelected(defaultCountry);
-  //   };
-
-  //   fetchOptions();
-  // }, [defaultValue, fetchFunction]);
-
-  // useEffect(() => {
-  //   const resolveFetch = async () => {
-  //     const res = await optionsPromise;
-  //     const defaultVal = defaultValue
-  //       ? res.find((c: Options) => c.label === defaultValue)
-  //       : res[0];
-
-  //     setOptions(res);
-  //     setSelected(defaultVal);
-  //   };
-  //   resolveFetch();
-  // }, [optionsPromise]);
-
   useEffect(() => {
     if (options) {
-      const defaultOption = defaultValue
-        ? options.find((c) => c.label === defaultValue)
-        : undefined;
-
+      const filterVal = options.find((c) => c.label === defaultValue);
+      const defaultOption = filterVal ? filterVal : null;
       setSelected(defaultOption);
+      handleChange(defaultOption);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultValue, options]);
 
   const handleChange = (selectedOption: ReactSelectOptions | null) => {
-    field.onChange(selectedOption?.label);
+    field.onChange(selectedOption ? selectedOption?.label : "");
     setSelected(selectedOption);
   };
 
@@ -86,8 +55,12 @@ export default function SelectInput({
         styles={{
           control: (baseStyles) => ({
             ...baseStyles,
-            border: "none",
             backgroundColor: "#16151c",
+            border: "1px solid white",
+            boxShadow: "none",
+            "&:hover": {
+              border: "1px solid white",
+            },
           }),
           option: (baseStyles) => ({
             ...baseStyles,

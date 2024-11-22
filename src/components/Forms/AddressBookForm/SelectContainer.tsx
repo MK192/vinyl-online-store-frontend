@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Control, UseFormSetValue, useWatch } from "react-hook-form";
 
@@ -8,10 +9,11 @@ import SelectInput from "@components/SelectInput";
 import { getCountries, getStates } from "requests/countriesRequest";
 
 //type
-import { EditAddressType } from "types/forms";
+import { EditAddressFormType } from "types/forms";
 
 type Props = {
-  control: Control<EditAddressType>;
+  setValue: UseFormSetValue<EditAddressFormType>;
+  control: Control<EditAddressFormType>;
   countryDefaultValue: string;
   stateDefaultValue: string;
   countryErrorMessage: string | undefined;
@@ -19,6 +21,7 @@ type Props = {
 };
 
 export default function SelectContainer({
+  setValue,
   control,
   countryDefaultValue,
   stateDefaultValue,
@@ -28,7 +31,6 @@ export default function SelectContainer({
   const country = useWatch({
     control,
     name: "country",
-    defaultValue: countryDefaultValue ?? "",
   });
 
   // Tanstack query
@@ -48,17 +50,12 @@ export default function SelectContainer({
     enabled: !!country,
   });
 
-  // useEffect(() => {
-  //   if (countryOptions?.length > 0 && !countryDefaultValue) {
-  //     setValue("country", countryOptions[1].label);
-  //   }
-  // }, [countryDefaultValue, countryOptions, setValue]);
+  useEffect(() => {
+    if (stateOptions?.length === 0) {
+      setValue("state", null);
+    }
+  }, [setValue, stateOptions]);
 
-  // useEffect(() => {
-  //   if (stateOptions?.length > 0 && !stateDefaultValue) {
-  //     setValue("state", stateOptions[1].label);
-  //   }
-  // }, [setValue, stateDefaultValue, stateOptions]);
   return (
     <div className="flex gap-2">
       <SelectInput
@@ -70,7 +67,7 @@ export default function SelectContainer({
         error={countryErrorMessage}
       />
 
-      {stateOptions?.length > 0 && (
+      {stateOptions?.length > 0 ? (
         <SelectInput
           control={control}
           name="state"
@@ -79,7 +76,7 @@ export default function SelectContainer({
           options={stateOptions}
           error={stateErrorMessage}
         />
-      )}
+      ) : null}
     </div>
   );
 }

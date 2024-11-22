@@ -44,11 +44,18 @@ export const editAddressFormSchema = z.object({
   isDefault: z.boolean(),
   lastName: z.string().min(1, { message: "required field" }),
   phone: z
-    .union([z.string().min(4), z.string().length(0)])
+    .union([
+      z.string().min(4, { message: "min 4 numbers" }),
+      z.string().length(0),
+    ])
     .optional()
     .transform((val) => (val === "" ? undefined : val)),
 
   postalCode: z.string().min(1, { message: "required field" }),
-  state: z.string().min(1, { message: "select option" }),
+  // state: z.string().min(1, { message: "select option" }),
+  state: z.union([
+    z.string().min(4, { message: "select option" }),
+    z.null().optional(),
+  ]),
   streetAddress: z.string().min(1, { message: "required field" }),
 });

@@ -1,4 +1,4 @@
-export interface RegistrationType {
+export interface RegistrationFormType {
   firstName: string;
   lastName: string;
   email: string;
@@ -6,23 +6,23 @@ export interface RegistrationType {
   terms: boolean;
 }
 
-export interface LoginType {
+export interface LoginFormType {
   email: string;
   password: string;
 }
 
-export interface EditUserProfileType {
+export interface EditUserProfileFormType {
   firstName: string;
   lastName: string;
   birthday: string;
 }
 
-export interface ChangePasswordType {
+export interface ChangePasswordFormType {
   currentPassword: string;
   newPassword: string;
 }
 
-export interface EditAddressType {
+export interface EditAddressFormType {
   apartment: string;
   city: string;
   company: string;
@@ -33,5 +33,5 @@ export interface EditAddressType {
   postalCode: string;
   phone: string;
   streetAddress: string;
-  state: string;
+  state: string | null;
 }

@@ -11,7 +11,7 @@ import ProfileDropzone from "pages/UserProfile/ProfileDropzone";
 
 //type
 import { LogedUserType } from "types/user";
-import { EditUserProfileType } from "types/forms";
+import { EditUserProfileFormType } from "types/forms";
 
 //request
 import { editUserProfile } from "requests/userRequest";
@@ -31,7 +31,7 @@ export default function EditProfileForm({ profile, setLogedUserData }: Props) {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<EditUserProfileType>({
+  } = useForm<EditUserProfileFormType>({
     resolver: zodResolver(editProfileSchema),
     defaultValues: {
       firstName: profile?.firstName ?? " ",
@@ -60,7 +60,7 @@ export default function EditProfileForm({ profile, setLogedUserData }: Props) {
   return (
     <form
       className="flex flex-col gap-8 items-center md:items-start"
-      onSubmit={handleSubmit((formData: EditUserProfileType) =>
+      onSubmit={handleSubmit((formData: EditUserProfileFormType) =>
         editProfile({
           currentProfile: profile,
           editedProfile: formData,

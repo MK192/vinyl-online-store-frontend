@@ -10,8 +10,8 @@ import FormCheckbox from "@components/Forms/FormCheckbox";
 import SelectContainer from "./SelectContainer";
 
 //type
-import { EditAddressType } from "types/forms";
-import { AddressType } from "types/general";
+import { EditAddressFormType } from "types/forms";
+import { UserAddressType } from "types/user";
 
 //context
 import { UserContextValue } from "@context/UserContex";
@@ -24,29 +24,10 @@ import { editAddressFormSchema } from "@schema/formSchemas";
 
 type Props = {
   setIsFormOpen: Dispatch<SetStateAction<boolean>>;
-  address?: AddressType;
-  isEdit?: boolean;
+  address?: UserAddressType;
 };
 
-export default function AddressBookForm({
-  setIsFormOpen,
-  address,
-  isEdit = true,
-}: Props) {
-  // const {
-  //   apartment,
-  //   city,
-  //   company,
-  //   country,
-  //   firstName,
-  //   isDefault,
-  //   lastName,
-  //   phone,
-  //   postalCode,
-  //   state,
-  //   streetAddress,
-  //   _id,
-  // } = address;
+export default function AddressBookForm({ setIsFormOpen, address }: Props) {
   const { setLogedUserData } = useContext(UserContextValue);
 
   // React-hook Form
@@ -54,10 +35,10 @@ export default function AddressBookForm({
     register,
     control,
     handleSubmit,
+    setValue,
     formState: { errors },
-  } = useForm<EditAddressType>({
+  } = useForm<EditAddressFormType>({
     resolver: zodResolver(editAddressFormSchema),
-
     defaultValues: {
       firstName: address?.firstName ?? "",
       lastName: address?.lastName ?? "",
@@ -72,12 +53,17 @@ export default function AddressBookForm({
       streetAddress: address?.streetAddress ?? "",
     },
   });
-  console.log(address?._id);
+
   // Tanstack query
-  const _id = address?._id ?? " ";
+  type Mutation = {
+    formData: EditAddressFormType;
+    _id?: string | null;
+  };
+
+  const _id = address?._id ?? null;
   const mutation = useMutation({
-    mutationFn: async (formData: EditAddressType, id?: string) => {
-      return isEdit
+    mutationFn: ({ formData, _id }: Mutation) => {
+      return _id
         ? editUserAddress({ _id, formData })
         : addUserAddress(formData);
     },
@@ -89,17 +75,18 @@ export default function AddressBookForm({
     },
   });
 
-  const title = isEdit ? "Edit Address" : "Add Address";
+  const title = _id ? "Edit Address" : "Add Address";
 
-  console.log(errors);
   return (
     <form
-      className="p-4 border-2 border-absenceOfColor"
-      onSubmit={handleSubmit((formData) => mutation.mutate({ formData, _id }))}
+      className="p-4 border-2 border-absenceOfColor min-w-full sm:min-w-[430px] md:min-w-[470px] w-5/12"
+      onSubmit={handleSubmit((formData) =>
+        _id ? mutation.mutate({ formData, _id }) : mutation.mutate({ formData })
+      )}
     >
       <h2 className="text-xl text-gray-300 font-bold">{title}</h2>
       <div className="flex flex-col gap-4 my-8">
-        <div className="flex gap-2">
+        <div className="flex flex-col gap-2 md:flex-row">
           <FormInputText
             labelText="First Name"
             height="h-8"
@@ -113,7 +100,7 @@ export default function AddressBookForm({
             error={errors.lastName?.message}
           />
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-col gap-2 md:flex-row">
           <FormInputText
             labelText="Company (optional)"
             height="h-8"
@@ -137,13 +124,14 @@ export default function AddressBookForm({
           />
         </div>
         <SelectContainer
+          setValue={setValue}
           control={control}
           countryDefaultValue={address?.country ?? ""}
           stateDefaultValue={address?.state ?? ""}
           countryErrorMessage={errors.country?.message}
           stateErrorMessage={errors.state?.message}
         />
-        <div className="flex gap-2">
+        <div className="flex flex-col gap-2 md:flex-row">
           <FormInputText
             labelText="City"
             height="h-8"
@@ -166,13 +154,16 @@ export default function AddressBookForm({
           />
         </div>
         <div className="self-end">
-          <FormCheckbox {...register("isDefault")}>
+          <FormCheckbox
+            isDisabled={address?.isDefault}
+            {...register("isDefault")}
+          >
             <p>Default Address</p>
           </FormCheckbox>
         </div>
       </div>
 
-      <div className="flex gap-8">
+      <div className=" flex gap-8">
         <Button
           backgroundColor="transparent"
           variant="content"

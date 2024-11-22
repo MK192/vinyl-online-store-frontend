@@ -7,8 +7,9 @@ import Button from "@components/Buttons/Button";
 import FormInputText from "@components/Forms/FormInputText";
 import FormCheckbox from "@components/Forms/FormCheckbox";
 import UserRegistered from "./UserRegistred";
+
 //type
-import { RegistrationType } from "types/forms";
+import { RegistrationFormType } from "types/forms";
 
 //schema
 import { registrationFormSchema } from "@schema/formSchemas";
@@ -22,7 +23,7 @@ export default function RegistrationForm() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<RegistrationType>({
+  } = useForm<RegistrationFormType>({
     resolver: zodResolver(registrationFormSchema),
   });
 

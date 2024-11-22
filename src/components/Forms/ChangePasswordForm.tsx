@@ -10,7 +10,7 @@ import FormInputText from "./FormInputText";
 import { changePassword } from "requests/userRequest";
 
 //type
-import { ChangePasswordType } from "types/forms";
+import { ChangePasswordFormType } from "types/forms";
 
 //schema
 import { changePasswordFormSchema } from "@schema/formSchemas";
@@ -21,7 +21,7 @@ export default function ChangePasswordForm() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ChangePasswordType>({
+  } = useForm<ChangePasswordFormType>({
     resolver: zodResolver(changePasswordFormSchema),
   });
 

@@ -11,7 +11,7 @@ import FormInputText from "./FormInputText";
 import { loginUser } from "requests/userRequest";
 
 //type
-import { LoginType } from "types/forms";
+import { LoginFormType } from "types/forms";
 
 //schema
 import { loginFormSchema } from "@schema/formSchemas";
@@ -21,7 +21,7 @@ export default function LoginForm() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginType>({
+  } = useForm<LoginFormType>({
     resolver: zodResolver(loginFormSchema),
   });
   const navigate = useNavigate();

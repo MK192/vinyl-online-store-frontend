@@ -1,17 +1,28 @@
-//utils
-import { findFormChanges } from "utils/functions";
+import { isEqual } from "lodash-es";
 
 //type
-import { RegistrationType, LoginType, EditAddressType } from "types/forms";
+import {
+  RegistrationFormType,
+  LoginFormType,
+  EditAddressFormType,
+} from "types/forms";
 import { LogedUserType } from "types/user";
-import { EditUserProfileType } from "types/forms";
+import { EditUserProfileFormType } from "types/forms";
 
 const baseUrl = import.meta.env.VITE_BASE_URL ?? "http://localhost:3001";
 
 /////// POST
 
-// Function for registration
-export const registerUser = async (formData: RegistrationType) => {
+/* Function for registration of users.
+@params:
+formData - data provided from registration form inputs 
+(firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  )
+*/
+export const registerUser = async (formData: RegistrationFormType) => {
   try {
     const res = await fetch(`${baseUrl}/api/v1/auth/register`, {
       method: "POST",
@@ -33,8 +44,13 @@ export const registerUser = async (formData: RegistrationType) => {
   }
 };
 
-// Function for log in
-export const loginUser = async (formData: LoginType) => {
+/* Function for log in 
+@params:
+formData - data provided from log in form inputs 
+(email: string;
+  password: string;
+  ) */
+export const loginUser = async (formData: LoginFormType) => {
   try {
     const res = await fetch(`${baseUrl}/api/v1/auth/login`, {
       method: "POST",
@@ -68,14 +84,16 @@ export const logoutUser = async () => {
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.message);
-    console.log(data);
   } catch (error) {
     console.error(error);
     throw new Error(`${error}`);
   }
 };
 
-// Function for changing user password.
+/* Function for changing user password.
+@params
+passwords: array of current and new password
+*/
 export const changePassword = async (passwords: string[]) => {
   const currentPassword = passwords[0];
   const newPassword = passwords[1];
@@ -102,11 +120,12 @@ export const changePassword = async (passwords: string[]) => {
   }
 };
 
-type AddUserProfileArgumentType = {
-  formData: EditAddressType;
-  id: string | undefined;
-};
-export const addUserAddress = async (data: AddUserProfileArgumentType) => {
+/*function should add new address in user profile
+@params 
+1)formData: data fetched from addAddress form inputs.
+(country, firstName, lastName, company, streetAddress, apartment,
+        city, state, postalCode, phone, isDefault)*/
+export const addUserAddress = async (formData: EditAddressFormType) => {
   const {
     country,
     firstName,
@@ -119,9 +138,8 @@ export const addUserAddress = async (data: AddUserProfileArgumentType) => {
     phone,
     postalCode,
     isDefault,
-  } = data.formData;
+  } = formData;
 
-  console.log(data.formData);
   try {
     const res = await fetch(`${baseUrl}/api/v1/user/addresses`, {
       method: "POST",
@@ -137,7 +155,7 @@ export const addUserAddress = async (data: AddUserProfileArgumentType) => {
         streetAddress: streetAddress,
         apartment: apartment,
         city: city,
-        state: state,
+        state: state ?? "",
         postalCode: postalCode,
         phone: phone,
         isDefault: isDefault,
@@ -145,7 +163,7 @@ export const addUserAddress = async (data: AddUserProfileArgumentType) => {
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error);
-    console.log("address updated");
+    console.log("address added");
     const updatedProfile = await getUser();
     return updatedProfile;
   } catch (error) {
@@ -158,9 +176,7 @@ export const addUserAddress = async (data: AddUserProfileArgumentType) => {
 ////// PATCH
 
 /* 
-Function for edit users profile. 
-UseMutation only can provide 1 argument, that is reason why
-params are transfered from one source.
+Function for edit users profile. returns updated user profile
 
  @params:
  1) currentProfile - whole user object fetched when user is loged in,
@@ -172,7 +188,7 @@ params are transfered from one source.
  */
 export interface EditUserProfileArgumentType {
   currentProfile: LogedUserType | null;
-  editedProfile: EditUserProfileType;
+  editedProfile: EditUserProfileFormType;
   imageFile: Blob[] | null;
   removeProfileImage: boolean;
 }
@@ -183,21 +199,24 @@ export const editUserProfile = async ({
   imageFile,
   removeProfileImage,
 }: EditUserProfileArgumentType) => {
-  const isFormEdited = findFormChanges(currentProfile, editedProfile);
+  let isFormUnedited = true;
   const formData = new FormData();
+  if (currentProfile) {
+    const { firstName, lastName, birthday } = currentProfile;
+    const current = { firstName, lastName, birthday };
+    isFormUnedited = isEqual(current, editedProfile);
+  }
 
   if (imageFile) {
     formData.append("profileImage", imageFile[0]);
   }
-  if (removeProfileImage && !currentProfile?.profileImage) return;
 
-  if (removeProfileImage) deleteProfileImage();
+  if (removeProfileImage && currentProfile?.profileImage) deleteProfileImage();
 
-  if (isFormEdited || imageFile || removeProfileImage) {
+  if (!isFormUnedited || imageFile || removeProfileImage) {
     formData.append("firstName", editedProfile.firstName);
     formData.append("lastName", editedProfile.lastName);
     formData.append("birthday", editedProfile.birthday);
-
     try {
       const res = await fetch(`${baseUrl}/api/v1/user`, {
         method: "PATCH",
@@ -218,15 +237,19 @@ export const editUserProfile = async ({
   }
 };
 
-type EditAddressArgumentType = { _id: string; formData: EditAddressType };
+// function should edit already existed address, return updated profile
+
+type EditAddressArgumentType = { _id: string; formData: EditAddressFormType };
 export const editUserAddress = async ({
   _id,
   formData,
 }: EditAddressArgumentType) => {
-  console.log(formData);
   try {
     const res = await fetch(`${baseUrl}/api/v1/user/addresses/${_id}`, {
       method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         apartment: formData.apartment,
         city: formData.city,
@@ -237,9 +260,10 @@ export const editUserAddress = async ({
         isDefault: formData.isDefault,
         phone: formData.phone,
         postalCode: formData.postalCode,
-        state: formData.state,
+        state: formData.state ?? "",
         streetAddress: formData.streetAddress,
       }),
+
       credentials: "include",
     });
     const data = await res.json();
@@ -256,6 +280,7 @@ export const editUserAddress = async ({
 };
 
 ////// GET
+// function for fetching data for logged user, return profile of logged user
 export const getUser = async () => {
   try {
     const res = await fetch(`${baseUrl}/api/v1/user`, {
@@ -277,6 +302,8 @@ export const getUser = async () => {
   }
 };
 
+/* function should check if user is authentificated, return profile of
+logged user */
 export const isAuth = async () => {
   try {
     const res = await fetch(`${baseUrl}/api/v1/auth/check-auth`, {
@@ -299,6 +326,9 @@ export const isAuth = async () => {
 };
 
 /////DELETE
+
+/* function should delete user's profile image, if there is no profile image
+default placeholder image should be displayed */
 export const deleteProfileImage = async () => {
   try {
     const res = await fetch(`${baseUrl}/api/v1/user/delete-profile-image`, {
@@ -318,6 +348,10 @@ export const deleteProfileImage = async () => {
   }
 };
 
+/* function should delete address with provided Id
+@parms
+1) addressId - id of address that should be deleted
+*/
 export const deleteUserAddress = async (addressId: string) => {
   try {
     const res = await fetch(`${baseUrl}/api/v1/user/addresses/${addressId}`, {
