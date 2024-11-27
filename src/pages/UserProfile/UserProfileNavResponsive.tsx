@@ -47,10 +47,12 @@ export default function UserProfileNavResponsive({
         </li>
         <li>
           <Button
-            handleClick={() => setActivePage(EProfile_Page_Options.PROFILE)}
+            handleClick={() =>
+              setActivePage(EProfile_Page_Options.EDIT_PROFILE)
+            }
             fullWidth
           >
-            <p className="font-semibold text-xl cursor-pointer">Profile</p>
+            <p className="font-semibold text-xl cursor-pointer">Edit Profile</p>
           </Button>
         </li>
         <li>

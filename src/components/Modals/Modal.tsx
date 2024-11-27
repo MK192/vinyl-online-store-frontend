@@ -7,7 +7,7 @@ type Props = {
   width?: string;
   height?: string;
   onClose: (showModal: boolean) => void;
-  domNode?: HTMLElement | Element | DocumentFragment | null;
+  domNode?: string;
 };
 const Modal = ({
   children,
@@ -15,7 +15,7 @@ const Modal = ({
   width,
   height,
   onClose,
-  domNode = document.body,
+  domNode = "body",
 }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
   const checkOutsideClick = (event: MouseEvent) => {
@@ -62,7 +62,7 @@ const Modal = ({
       <hr className="m-4 border-absenceOfColor border-[1px]" />
       <div>{children}</div>
     </div>,
-    domNode ? domNode : document.body
+    document.getElementById(domNode)!
   );
 };
 

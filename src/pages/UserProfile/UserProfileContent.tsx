@@ -24,15 +24,20 @@ export default function UserProfileContent() {
 
   return (
     <>
-      <div className="flex flex-col relative items-center gap-12 px-6 pt-12 md:px-8 md:items-start md:flex-row ">
+      <div className="flex flex-col relative  items-center gap-12 px-6 pt-12 md:px-8 md:items-start md:flex-row ">
         {/*UserProfileNav component is used for user profile navigation on 
        wider screens larger 800 px and larger */}
+
         <UserProfileNav setActivePage={setActivePage} />
-        <div id="modal" className="absolute top-1 left-1 md:hidden"></div>
+        <div
+          id="user-profile-modal"
+          className="absolute top-1 left-1 md:hidden"
+        ></div>
 
         {/*for screens with width below 800 px modal is used for
        profile user profile navigation. Modal is open when hamburger
        is clicked*/}
+
         <nav className="self-start md:hidden">
           <ModalDialog
             trigger={
@@ -42,7 +47,7 @@ export default function UserProfileContent() {
             }
             width="w-10/12"
             title="Profile Navigation"
-            domNode={document.getElementById("modal")}
+            domNode={"user-profile-modal"}
           >
             <UserProfileNavResponsive
               activePage={activePage}

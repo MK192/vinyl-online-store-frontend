@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 //components
@@ -45,6 +45,7 @@ export default function Nav() {
       {logedUserData ? (
         <div className="relative flex gap-4 items-center text-lg">
           <p>{formatedName}</p>
+
           <div id="nav-modal" className="absolute top-14 right-72"></div>
           <ModalDialog
             trigger={
@@ -52,7 +53,7 @@ export default function Nav() {
                 <ProfileImage imageURL={imageURL} />
               </Button>
             }
-            domNode={document.getElementById("nav-modal")}
+            domNode={"nav-modal"}
           >
             <div className="flex flex-col gap-2 p-2 text-lg">
               <Link to="/user-profile">Profile</Link>
@@ -70,14 +71,14 @@ export default function Nav() {
           </ModalDialog>
         </div>
       ) : (
-        <>
+        <div className="flex gap-4">
           <Link to={"/registration"}>
             <strong className="cursor-pointer">Register</strong>
           </Link>
           <Link to={"/login"}>
             <strong className="cursor-pointer">Login</strong>
           </Link>
-        </>
+        </div>
       )}
     </nav>
   );
