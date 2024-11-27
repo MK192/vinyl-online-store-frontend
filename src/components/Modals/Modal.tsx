@@ -6,7 +6,6 @@ type Props = {
   title?: string;
   width?: string;
   height?: string;
-  isOpen: boolean;
   onClose: (showModal: boolean) => void;
   domNode?: HTMLElement | Element | DocumentFragment | null;
 };
@@ -15,7 +14,6 @@ const Modal = ({
   title,
   width,
   height,
-  isOpen,
   onClose,
   domNode = document.body,
 }: Props) => {
@@ -47,27 +45,24 @@ const Modal = ({
     };
   }, []);
 
-  return (
-    isOpen &&
-    createPortal(
-      <div
-        className={`max-w-[500px] min-w-72 ${width} ${height} fixed z-10 bg-gradient-to-r from-gray-700 to-slate-800 rounded-sm md:hidden`}
-        ref={ref}
-      >
-        <div className="flex justify-between">
-          <strong className="p-2 text-xl text-gray-300">{title}</strong>
-          <button
-            className="bg-absenceOfColor w-16 h-8 "
-            onClick={() => onClose(false)}
-          >
-            <p className="text-gray-300 text-xl"> x</p>
-          </button>
-        </div>
-        <hr className="m-4 border-absenceOfColor border-[1px]" />
-        <div>{children}</div>
-      </div>,
-      domNode ? domNode : document.body
-    )
+  return createPortal(
+    <div
+      className={`max-w-[500px] min-w-72 ${width} ${height} fixed z-10 bg-gradient-to-r from-gray-700 to-slate-800 rounded-sm `}
+      ref={ref}
+    >
+      <div className="flex justify-between">
+        <strong className="p-2 text-xl text-gray-300">{title}</strong>
+        <button
+          className="bg-absenceOfColor w-16 h-8 "
+          onClick={() => onClose(false)}
+        >
+          <p className="text-gray-300 text-xl"> x</p>
+        </button>
+      </div>
+      <hr className="m-4 border-absenceOfColor border-[1px]" />
+      <div>{children}</div>
+    </div>,
+    domNode ? domNode : document.body
   );
 };
 

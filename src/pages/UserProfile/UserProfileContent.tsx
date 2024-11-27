@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import UserProfileNav from "./UserProfileNav";
 import ProfileOptions from "./ProfileOptions";
 import Hamburger from "@components/Hamburger";
-import Modal from "@components/Modals/Modal";
+import ModalDialog from "@components/Modals/ModalDialog";
 import UserProfileNavResponsive from "./UserProfileNavResponsive";
 
 //enums
@@ -25,30 +25,32 @@ export default function UserProfileContent() {
   return (
     <>
       <div className="flex flex-col relative items-center gap-12 px-6 pt-12 md:px-8 md:items-start md:flex-row ">
+        {/*UserProfileNav component is used for user profile navigation on 
+       wider screens larger 800 px and larger */}
         <UserProfileNav setActivePage={setActivePage} />
-        {/*Hamburger is used to activate navigation modal on smaller screens*/}
+        <div id="modal" className="absolute top-1 left-1 md:hidden"></div>
+
+        {/*for screens with width below 800 px modal is used for
+       profile user profile navigation. Modal is open when hamburger
+       is clicked*/}
         <nav className="self-start md:hidden">
-          <Hamburger
-            handleClick={() => {
-              setShowModal(!showModal);
-            }}
-          />
-        </nav>
-        <div id="modal" className="absolute top-1 left-1"></div>
-        {showModal && (
-          <Modal
-            isOpen={showModal}
+          <ModalDialog
+            trigger={
+              <button>
+                <Hamburger />
+              </button>
+            }
             width="w-10/12"
             title="Profile Navigation"
-            onClose={() => setShowModal(false)}
             domNode={document.getElementById("modal")}
           >
             <UserProfileNavResponsive
               activePage={activePage}
               setActivePage={setActivePage}
             />
-          </Modal>
-        )}
+          </ModalDialog>
+        </nav>
+
         <ProfileOptions selectedOption={activePage} />
       </div>
     </>
