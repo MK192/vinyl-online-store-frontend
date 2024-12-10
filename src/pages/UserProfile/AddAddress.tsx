@@ -13,7 +13,7 @@ export default function AddAddress() {
         {isFormOpen ? (
           <AddressBookForm setIsFormOpen={setIsFormOpen} />
         ) : (
-          <Button handleClick={() => setIsFormOpen(true)}>
+          <Button onClick={() => setIsFormOpen(true)}>
             <p>Add Address</p>
           </Button>
         )}

@@ -2,7 +2,7 @@ import { useContext } from "react";
 
 //components
 import OrderHistory from "./OrderHistory";
-import { MemoizedProfile } from "./Profile";
+import { EditProfile } from "./EditProfile";
 import AddressBook from "./AddressBook";
 
 //context
@@ -23,9 +23,9 @@ export default function ProfileOptions({ selectedOption }: Props) {
 
     case EProfile_Page_Options.ADDRESS_BOOK:
       return <AddressBook profile={logedUserData} />;
-    case EProfile_Page_Options.PROFILE:
+    case EProfile_Page_Options.EDIT_PROFILE:
       return (
-        <MemoizedProfile
+        <EditProfile
           profile={logedUserData}
           setLogedUserData={setLogedUserData}
         />

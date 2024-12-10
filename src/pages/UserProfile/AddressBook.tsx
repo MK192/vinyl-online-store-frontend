@@ -9,7 +9,6 @@ type Props = {
 };
 
 export default function AddressBook({ profile }: Props) {
-  console.log("adres book rerender");
   return (
     <div className="w-full text-start md:w-9/12">
       <div className="flex flex-col gap-6 ">

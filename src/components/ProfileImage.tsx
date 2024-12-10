@@ -8,8 +8,8 @@ type Props = {
 
 export default function ProfileImage({
   imageURL,
-  width = "w-9",
-  height = "h-9",
+  width = "w-10",
+  height = "h-10",
   handleClick,
   onLoad,
 }: Props) {
