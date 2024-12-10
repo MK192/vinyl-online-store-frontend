@@ -5,7 +5,7 @@ type Props = {
   height?: string;
   backgroundColor?: string;
   stripeColor?: string;
-  handleClick: () => void;
+  handleClick?: () => void;
 };
 
 export default function Hamburger({

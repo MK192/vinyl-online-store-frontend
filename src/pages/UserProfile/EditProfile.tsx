@@ -1,5 +1,3 @@
-import { memo } from "react";
-
 //components
 import EditProfileForm from "@components/Forms/EditProfileForm";
 import ChangePasswordForm from "@components/Forms/ChangePasswordForm";
@@ -11,7 +9,7 @@ type Props = {
   profile: LogedUserType | null;
   setLogedUserData: React.Dispatch<React.SetStateAction<LogedUserType | null>>;
 };
-function Profile({ profile, setLogedUserData }: Props) {
+export function EditProfile({ profile, setLogedUserData }: Props) {
   console.log(profile);
 
   return (
@@ -30,4 +28,3 @@ function Profile({ profile, setLogedUserData }: Props) {
     </div>
   );
 }
-export const MemoizedProfile = memo(Profile);

@@ -71,14 +71,14 @@ export default function AddressCard({ address }: Props) {
             <Button
               backgroundColor="transparant"
               variant="content"
-              handleClick={() => setIsFormOpen(true)}
+              onClick={() => setIsFormOpen(true)}
             >
               Edit
             </Button>
             <Button
               backgroundColor="transparant"
               variant="content"
-              handleClick={() => deleteAddress(address._id)}
+              onClick={() => deleteAddress(address._id)}
               disabled={isButtonDisabled}
             >
               Delete
