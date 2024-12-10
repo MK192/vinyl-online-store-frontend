@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 //component
 import Button from "@components/Buttons/Button";
 import LogoutButton from "@components/Buttons/LogoutButton";
+import CloseModal from "@components/Modals/CloseModal";
 
 //enums
 import { EProfile_Page_Options } from "enums/enums";
@@ -24,36 +25,46 @@ export default function UserProfileNavResponsive({
       </p>
       <ul className="flex flex-col gap-4 w-9/12 mt-9 sm:w-6/12">
         <li>
-          <Button
-            handleClick={() =>
-              setActivePage(EProfile_Page_Options.ORDER_HISTORY)
-            }
-            fullWidth
-          >
-            <p className="font-semibold text-xl cursor-pointer">
-              Order History
-            </p>
-          </Button>
+          <CloseModal>
+            <Button
+              onClick={() => {
+                setActivePage(EProfile_Page_Options.ORDER_HISTORY);
+              }}
+              fullWidth
+            >
+              <p className="font-semibold text-xl cursor-pointer">
+                Order History
+              </p>
+            </Button>
+          </CloseModal>
         </li>
         <li>
-          <Button
-            handleClick={() =>
-              setActivePage(EProfile_Page_Options.ADDRESS_BOOK)
-            }
-            fullWidth
-          >
-            <p className="font-semibold text-xl cursor-pointer">Address Book</p>
-          </Button>
+          <CloseModal>
+            <Button
+              onClick={() => {
+                setActivePage(EProfile_Page_Options.ADDRESS_BOOK);
+              }}
+              fullWidth
+            >
+              <p className="font-semibold text-xl cursor-pointer">
+                Address Book
+              </p>
+            </Button>
+          </CloseModal>
         </li>
         <li>
-          <Button
-            handleClick={() =>
-              setActivePage(EProfile_Page_Options.EDIT_PROFILE)
-            }
-            fullWidth
-          >
-            <p className="font-semibold text-xl cursor-pointer">Edit Profile</p>
-          </Button>
+          <CloseModal>
+            <Button
+              onClick={() => {
+                setActivePage(EProfile_Page_Options.EDIT_PROFILE);
+              }}
+              fullWidth
+            >
+              <p className="font-semibold text-xl cursor-pointer">
+                Edit Profile
+              </p>
+            </Button>
+          </CloseModal>
         </li>
         <li>
           <Link to="/">

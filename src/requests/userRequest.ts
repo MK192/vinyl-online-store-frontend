@@ -5,9 +5,9 @@ import {
   RegistrationFormType,
   LoginFormType,
   EditAddressFormType,
+  EditUserProfileFormType,
 } from "types/forms";
 import { LogedUserType } from "types/user";
-import { EditUserProfileFormType } from "types/forms";
 
 const baseUrl = import.meta.env.VITE_BASE_URL ?? "http://localhost:3001";
 

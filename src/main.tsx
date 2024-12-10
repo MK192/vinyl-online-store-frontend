@@ -15,7 +15,7 @@ import UserContext from "@context/UserContex.tsx";
 //utils
 import {
   protectedLoaderFunction,
-  signedLoaderFunction,
+  preventSignedLoaderFunction,
 } from "utils/functions.ts";
 
 //style
@@ -28,12 +28,12 @@ const router = createBrowserRouter([
   },
 
   {
-    loader: signedLoaderFunction,
+    loader: preventSignedLoaderFunction,
     path: "/registration",
     element: <Registration />,
   },
   {
-    loader: signedLoaderFunction,
+    loader: preventSignedLoaderFunction,
     path: "/login",
     element: <Login />,
   },

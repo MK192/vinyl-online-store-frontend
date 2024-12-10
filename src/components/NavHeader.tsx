@@ -1,11 +1,11 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 //components
-import ProfileImage from "./ProfileImage";
-import ModalDialog from "./Modals/ModalDialog";
-import Modal from "./Modals/Modal";
 import Button from "./Buttons/Button";
+import ProfileImage from "./ProfileImage";
+import Modal from "./Modals/Modal";
+import CloseModal from "./Modals/CloseModal";
 
 //context
 import { UserContextValue } from "@context/UserContex";
@@ -13,8 +13,9 @@ import { UserContextValue } from "@context/UserContex";
 //request
 import { logoutUser, isAuth, getUser } from "requests/userRequest";
 
-export default function Nav() {
+export default function NavHeader() {
   const { logedUserData, setLogedUserData } = useContext(UserContextValue);
+  const ref = useRef<HTMLDivElement | null>(null);
   const formatedName = `${logedUserData?.firstName} ${logedUserData?.lastName}`;
   const imageURL = logedUserData?.profileImage
     ? `${import.meta.env.VITE_BASE_URL}${logedUserData?.profileImage}`
@@ -44,19 +45,27 @@ export default function Nav() {
       </Link>
       {logedUserData ? (
         <div className="relative flex gap-4 items-center text-lg">
-          <p>{formatedName}</p>
-
-          <div id="nav-modal" className="absolute top-14 right-72"></div>
-          <ModalDialog
+          <div
+            ref={ref}
+            id="nav-header-modal"
+            className="absolute top-16 right-72"
+          ></div>
+          <Modal
+            portalRef={ref.current}
+            isCentered={false}
             trigger={
               <Button variant="content">
-                <ProfileImage imageURL={imageURL} />
+                <div className="flex gap-4 items-center">
+                  <p>{formatedName}</p>
+                  <ProfileImage imageURL={imageURL} />
+                </div>
               </Button>
             }
-            domNode={"nav-modal"}
           >
-            <div className="flex flex-col gap-2 p-2 text-lg">
-              <Link to="/user-profile">Profile</Link>
+            <div className="flex flex-col gap-4 p-2 text-lg  mt-6 w-[300px]">
+              <CloseModal>
+                <Link to="/user-profile">Profile</Link>
+              </CloseModal>
               <Link to="/">
                 <p
                   onClick={() => {
@@ -68,7 +77,7 @@ export default function Nav() {
                 </p>
               </Link>
             </div>
-          </ModalDialog>
+          </Modal>
         </div>
       ) : (
         <div className="flex gap-4">

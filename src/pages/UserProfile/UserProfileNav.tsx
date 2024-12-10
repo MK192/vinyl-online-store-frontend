@@ -16,9 +16,7 @@ export default function UserProfileNav({ setActivePage }: Props) {
       <ul className="flex flex-col gap-3 w-52">
         <li>
           <Button
-            handleClick={() =>
-              setActivePage(EProfile_Page_Options.ORDER_HISTORY)
-            }
+            onClick={() => setActivePage(EProfile_Page_Options.ORDER_HISTORY)}
             fullWidth
           >
             <p className="font-semibold text-xl cursor-pointer">
@@ -28,9 +26,7 @@ export default function UserProfileNav({ setActivePage }: Props) {
         </li>
         <li>
           <Button
-            handleClick={() =>
-              setActivePage(EProfile_Page_Options.ADDRESS_BOOK)
-            }
+            onClick={() => setActivePage(EProfile_Page_Options.ADDRESS_BOOK)}
             fullWidth
           >
             <p className="font-semibold text-xl cursor-pointer">Address Book</p>
@@ -38,9 +34,7 @@ export default function UserProfileNav({ setActivePage }: Props) {
         </li>
         <li>
           <Button
-            handleClick={() =>
-              setActivePage(EProfile_Page_Options.EDIT_PROFILE)
-            }
+            onClick={() => setActivePage(EProfile_Page_Options.EDIT_PROFILE)}
             fullWidth
           >
             <p className="font-semibold text-xl cursor-pointer">Edit Profile</p>

@@ -167,7 +167,7 @@ export default function AddressBookForm({ setIsFormOpen, address }: Props) {
         <Button
           backgroundColor="transparent"
           variant="content"
-          handleClick={() => setIsFormOpen(false)}
+          onClick={() => setIsFormOpen(false)}
         >
           Cancel
         </Button>

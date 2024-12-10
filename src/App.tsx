@@ -1,9 +1,9 @@
 //components
-import Nav from "@components/Nav";
+import NavHeader from "@components/NavHeader";
 function App() {
   return (
     <>
-      <Nav />
+      <NavHeader />
     </>
   );
 }

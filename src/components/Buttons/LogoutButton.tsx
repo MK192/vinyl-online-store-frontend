@@ -33,7 +33,7 @@ export default function LogoutButton({
       fullWidth={fullWidth}
       type={type}
       variant={variant}
-      handleClick={() => {
+      onClick={() => {
         logoutUser();
         // setLogedUserData(null);
       }}

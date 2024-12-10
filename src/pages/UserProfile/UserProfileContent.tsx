@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 //components
 import UserProfileNav from "./UserProfileNav";
 import ProfileOptions from "./ProfileOptions";
 import Hamburger from "@components/Hamburger";
-import ModalDialog from "@components/Modals/ModalDialog";
+import Modal from "@components/Modals/Modal";
 import UserProfileNavResponsive from "./UserProfileNavResponsive";
 
 //enums
@@ -14,48 +14,48 @@ export default function UserProfileContent() {
   const [activePage, setActivePage] = useState(
     EProfile_Page_Options.ORDER_HISTORY
   );
-  const [showModal, setShowModal] = useState(false);
-
+  const [portalRef, setPortalRef] = useState<Element | null>(null);
+  const ref = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
-    if (showModal) {
-      setShowModal(false);
+    if (ref.current) {
+      setPortalRef(ref.current);
     }
-  }, [activePage]);
+  }, []);
 
   return (
     <>
-      <div className="flex flex-col relative  items-center gap-12 px-6 pt-12 md:px-8 md:items-start md:flex-row ">
-        {/*UserProfileNav component is used for user profile navigation on 
-       wider screens larger 800 px and larger */}
-
+      <div className="flex flex-col relative items-center gap-12 px-6 pt-12 md:px-8 md:items-start md:flex-row ">
+        {/*UserProfileNav component is used for navigating user profile on 
+       wider screens, 800px and wider */}
         <UserProfileNav setActivePage={setActivePage} />
         <div
+          ref={ref}
           id="user-profile-modal"
           className="absolute top-1 left-1 md:hidden"
         ></div>
 
-        {/*for screens with width below 800 px modal is used for
-       profile user profile navigation. Modal is open when hamburger
+        {/*for screens with width below 800px modal is used for
+       user profile navigation. Modal is open when hamburger
        is clicked*/}
 
         <nav className="self-start md:hidden">
-          <ModalDialog
+          <Modal
             trigger={
               <button>
                 <Hamburger />
               </button>
             }
             width="w-10/12"
+            isCentered={false}
             title="Profile Navigation"
-            domNode={"user-profile-modal"}
+            portalRef={portalRef}
           >
             <UserProfileNavResponsive
               activePage={activePage}
               setActivePage={setActivePage}
             />
-          </ModalDialog>
+          </Modal>
         </nav>
-
         <ProfileOptions selectedOption={activePage} />
       </div>
     </>
