@@ -6,6 +6,7 @@ import Button from "./Buttons/Button";
 import ProfileImage from "./ProfileImage";
 import Modal from "./Modals/Modal";
 import CloseModal from "./Modals/CloseModal";
+import HeaderLinksContainer from "./HeaderLinksContainer";
 
 //context
 import { UserContextValue } from "@context/UserContex";
@@ -35,7 +36,7 @@ export default function NavHeader() {
   }, [setLogedUserData]);
 
   return (
-    <nav className="h-16 flex items-center justify-between p-6 gap-4 bg-absenceOfColor border-b-2 border-gray-700">
+    <nav className="h-16 flex items-center fixed w-full justify-between p-6 gap-4 bg-absenceOfColor border-b-2 border-gray-700 z-50">
       <Link to="/">
         <img
           src="vinyl-record.png"
@@ -43,6 +44,8 @@ export default function NavHeader() {
           alt="vinyl record icon"
         />
       </Link>
+      <HeaderLinksContainer />
+
       {logedUserData ? (
         <div className="relative flex gap-4 items-center text-lg">
           <div
