@@ -24,7 +24,7 @@ export default function UserProfileContent() {
 
   return (
     <>
-      <div className="flex flex-col relative items-center gap-12 px-6 pt-12 md:px-8 md:items-start md:flex-row ">
+      <div className="flex flex-col relative items-center gap-12 px-6 pt-28 md:px-8 md:items-start md:flex-row ">
         {/*UserProfileNav component is used for navigating user profile on 
        wider screens, 800px and wider */}
         <UserProfileNav setActivePage={setActivePage} />
